@@ -36,6 +36,7 @@ function App() {
                 />
                 <label htmlFor="ticTacToeSize">board size</label>
             </div>
+            <h5> {`next player is ${}`} </h5>
             <Board
                 gutterSizeInPx={5}
                 boardTileSizeInPx={ticTacToeBoardSize}
