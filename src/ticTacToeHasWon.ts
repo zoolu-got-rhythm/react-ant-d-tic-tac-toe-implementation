@@ -5,9 +5,7 @@ interface TicTacToeCheckFor3InARowParameters {
     ticTacToeArray: NaughtOrCrossValue[];
 }
 
-export function ticTacToeHasWon(
-    ticTacToeArray: NaughtOrCrossValue[]
-) {
+export function ticTacToeHasWon(ticTacToeArray: NaughtOrCrossValue[]) {
     return (
         checkFor3InARow({ naughtOrCross: "o", ticTacToeArray }) ||
         checkFor3InARow({ naughtOrCross: "x", ticTacToeArray }) ||
@@ -27,6 +25,7 @@ function checkFor3InARow({
         [1, 4, 7],
         [2, 5, 8],
         [0, 4, 8],
+        [2, 4, 6],
     ];
 
     for (let i = 0; i < valid3InARowCombinationsByIndex.length; i++) {

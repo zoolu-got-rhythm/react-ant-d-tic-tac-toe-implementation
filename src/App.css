@@ -1,5 +1,8 @@
 .App {
     text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .row {
@@ -29,4 +32,18 @@
 
 #ticTacToeSize {
     margin-bottom: 15px;
+}
+
+#ticTacToeGameContainer {
+    display: flex;
+}
+
+.historyButtonTurn {
+}
+
+#historyButtonTurnContainer {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    margin-top: 50px;
 }
