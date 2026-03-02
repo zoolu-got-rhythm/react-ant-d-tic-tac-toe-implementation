@@ -19,8 +19,9 @@ export function Board({
     onClickTile,
     naughtsAndCrossesArrayData,
 }: BoardProps) {
-    const boardRows = 3;
-    const boardColumns = 3;
+    const boardRows = 3; // this assumption on another file is ok, but in terms of clean coding it's breaking a rule
+    const boardColumns = 3; // this assumption on another file is ok, but in terms of clean coding it's breaking a rule
+    // changing any of the above 2 lines will silently cause a break (should be refactored)
 
     useHasMounted("<Board />");
 
