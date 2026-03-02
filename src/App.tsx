@@ -4,6 +4,9 @@ import { Board } from "./Board";
 import { NaughtOrCrossValue } from "./Cell";
 import { ticTacToeHasWon } from "./ticTacToeHasWon";
 import { TurnHistoryList } from "./TurnHistoryList";
+import Title from "antd/es/typography/Title";
+import { Slider } from "antd";
+import Text from "antd/es/typography/Text";
 
 function App() {
     const [ticTacToeArray, setTicTacToeArray] = useState<NaughtOrCrossValue[]>(
@@ -35,26 +38,11 @@ function App() {
 
     return (
         <div className="App">
-            <h2> tic-tac-toe </h2>
+            <Title> tic-tac-toe </Title>
 
             <div id="ticTacToeGameContainer">
                 <div id="leftColumn">
-                    <div>
-                        <input
-                            type="range"
-                            id="ticTacToeSize"
-                            name="board size"
-                            min="30"
-                            max="70"
-                            step={5}
-                            value={ticTacToeBoardSize}
-                            onChange={(val) => {
-                                setTicTacToeBoardSize(Number(val.target.value));
-                            }}
-                        />
-                        <label htmlFor="ticTacToeSize">board size</label>
-                    </div>
-                    <h5> {`next player is ${whosTurnIsIt}`} </h5>
+                    <Text strong> {`next player is ${whosTurnIsIt}`} </Text>
                     <Board
                         gutterSizeInPx={5}
                         boardTileSizeInPx={ticTacToeBoardSize}
@@ -89,7 +77,10 @@ function App() {
                         naughtsAndCrossesArrayData={ticTacToeArray}
                     />
                     {winnerOfGame && (
-                        <h4>{`winner of game is ${winnerOfGame}`}</h4>
+                        <Text
+                            strong
+                            type="success"
+                        >{`winner of game is ${winnerOfGame}`}</Text>
                     )}
                 </div>
                 <div>

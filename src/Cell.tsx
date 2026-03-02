@@ -1,6 +1,8 @@
+import Title from "antd/es/typography/Title";
 import "./App.css";
 import { BoardDimensionsProps, BoardProps } from "./Board";
 import { useHasMounted } from "./hooks/useHasMounted";
+import Text from "antd/es/typography/Text";
 
 export type NaughtOrCrossValue = "x" | "o" | null;
 
@@ -26,13 +28,14 @@ export function Cell({
             onClick={onClick}
             className="cell"
         >
-            <h2
+            <Text
+                strong
                 style={{
-                    fontSize: `${boardTileSizeInPx - 10}px`,
+                    fontSize: "50px",
                 }}
             >
                 {NaughtOrCrossValue}
-            </h2>
+            </Text>
         </div>
     );
 }
