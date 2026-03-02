@@ -32,6 +32,7 @@ function App() {
             ticTacToeHasWon(ticTacToeArray);
         setWinnerOfGame(naughtOrCrossWinner);
     }, [ticTacToeArray]);
+
     return (
         <div className="App">
             <h2> tic-tac-toe </h2>
@@ -74,7 +75,10 @@ function App() {
                                     ] = whosTurnIsIt;
 
                                     setTicTacToeArrayTurnHistory([
-                                        ...ticTacToeArrayTurnHistory,
+                                        ...ticTacToeArrayTurnHistory.slice(
+                                            0,
+                                            ticTacToeArrayCopyEntriesLength,
+                                        ),
                                         ticTacToeArrayCopy,
                                     ]);
 
@@ -96,17 +100,9 @@ function App() {
                             indexForThatTurn: number,
                         ): void {
                             setTicTacToeArray(turnHistoryArrayForThatTurn);
-                            setTicTacToeArrayTurnHistory(
-                                ticTacToeArrayTurnHistory.slice(
-                                    0,
-                                    indexForThatTurn + 1,
-                                ),
-                            );
                         }}
                         onResetGameClick={function (): void {
-                            console.log("clicked");
                             setTicTacToeArray(Array(9).fill(null));
-                            setTicTacToeArrayTurnHistory([]);
                         }}
                     />
                 </div>
