@@ -1,6 +1,5 @@
 import { Cell, NaughtOrCrossValue } from "./Cell";
 import "./App.css";
-import { useEffect } from "react";
 import { useHasMounted } from "./hooks/useHasMounted";
 
 export interface BoardDimensionsProps {

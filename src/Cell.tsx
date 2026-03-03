@@ -1,6 +1,5 @@
-import Title from "antd/es/typography/Title";
 import "./App.css";
-import { BoardDimensionsProps, BoardProps } from "./Board";
+import { BoardDimensionsProps } from "./Board";
 import { useHasMounted } from "./hooks/useHasMounted";
 import Text from "antd/es/typography/Text";
 

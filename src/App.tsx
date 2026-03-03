@@ -5,7 +5,6 @@ import { NaughtOrCrossValue } from "./Cell";
 import { ticTacToeHasWon } from "./ticTacToeHasWon";
 import { TurnHistoryList } from "./TurnHistoryList";
 import Title from "antd/es/typography/Title";
-import { Slider } from "antd";
 import Text from "antd/es/typography/Text";
 
 function App() {
@@ -19,7 +18,7 @@ function App() {
 
     const [winnerOfGame, setWinnerOfGame] = useState<NaughtOrCrossValue>(null);
 
-    const [ticTacToeBoardSize, setTicTacToeBoardSize] = useState<number>(50);
+    const ticTacToeBoardSize = 50;
 
     let ticTacToeArrayCopy = [...ticTacToeArray];
 
