@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { Board } from "./Board";
 import { NaughtOrCrossValue } from "./Cell";
-import { ticTacToeHasWon } from "./utils/ticTacToeHasWon";
+import { ticTacToeHasWon } from "../utils/ticTacToeHasWon";
 import { TurnHistoryList } from "./TurnHistoryList";
 import { Typography } from "antd";
-import { isBoardFull } from "./utils/isBoardFull";
+import { isBoardFull } from "../utils/isBoardFull";
 
 const { Title, Text } = Typography;
 

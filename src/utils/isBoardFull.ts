@@ -1,4 +1,4 @@
-import { NaughtOrCrossValue } from "../Cell";
+import { NaughtOrCrossValue } from "../components/Cell";
 
 export function isBoardFull(boardArray: NaughtOrCrossValue[]): boolean {
     return (

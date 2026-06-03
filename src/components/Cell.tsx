@@ -1,5 +1,5 @@
 import { BoardDimensionsProps } from "./Board";
-import { useHasMounted } from "./hooks/useHasMounted";
+import { useHasMounted } from "../hooks/useHasMounted";
 import "./App.css";
 import { Typography } from "antd";
 

@@ -38,9 +38,6 @@
     display: flex;
 }
 
-.historyButtonTurn {
-}
-
 #historyButtonTurnContainer {
     display: flex;
     flex-direction: column;

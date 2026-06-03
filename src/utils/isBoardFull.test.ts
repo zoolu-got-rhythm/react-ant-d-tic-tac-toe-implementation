@@ -1,5 +1,5 @@
 import { isBoardFull } from "./isBoardFull";
-import { NaughtOrCrossValue } from "../Cell";
+import { NaughtOrCrossValue } from "../components/Cell";
 
 describe("isBoardFull", () => {
     test("returns false for an empty board", () => {

@@ -1,4 +1,4 @@
-import { NaughtOrCrossValue } from "../Cell";
+import { NaughtOrCrossValue } from "../components/Cell";
 
 interface TicTacToeCheckFor3InARowParameters {
     naughtOrCross: "x" | "o";

@@ -1,5 +1,5 @@
 import { Cell, NaughtOrCrossValue } from "./Cell";
-import { useHasMounted } from "./hooks/useHasMounted";
+import { useHasMounted } from "../hooks/useHasMounted";
 import "./App.css";
 
 export interface BoardDimensionsProps {
