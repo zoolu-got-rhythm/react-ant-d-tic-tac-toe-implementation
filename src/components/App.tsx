@@ -45,6 +45,7 @@ function App() {
                 <div id="leftColumn">
                     <Text strong> {`next player is ${whosTurnIsIt}`} </Text>
                     <Board
+                        cellClickable={!winnerOfGame}
                         gutterSizeInPx={5}
                         boardTileSizeInPx={ticTacToeBoardSize}
                         onClickTile={function (

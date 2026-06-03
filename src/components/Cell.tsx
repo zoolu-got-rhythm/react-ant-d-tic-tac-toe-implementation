@@ -19,6 +19,7 @@ export function Cell({
     gutterSizeInPx,
     boardTileSizeInPx,
     onClick,
+    cellClickable
 }: CellProps) {
     useHasMounted("<Cell />");
     return (
@@ -29,7 +30,7 @@ export function Cell({
                 height: `${boardTileSizeInPx}px`,
             }}
             onClick={onClick}
-            className="cell"
+            className={`cell ${cellClickable && "cellClickable"}`}
         >
             <Text
                 strong

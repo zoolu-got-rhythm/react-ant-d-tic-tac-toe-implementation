@@ -20,7 +20,7 @@
     padding-bottom: 5px;
 }
 
-.cell:hover {
+.cellClickable:hover {
     background: #ccc;
     cursor: pointer;
 }
