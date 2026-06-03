@@ -1,7 +1,11 @@
-import "./App.css";
 import { BoardDimensionsProps } from "./Board";
 import { useHasMounted } from "./hooks/useHasMounted";
-import Text from "antd/es/typography/Text";
+import "./App.css";
+import { Typography } from "antd";
+
+const { Text } = Typography;
+
+
 
 export type NaughtOrCrossValue = "x" | "o" | null;
 
@@ -30,7 +34,7 @@ export function Cell({
             <Text
                 strong
                 style={{
-                    fontSize: "50px",
+                    fontSize: "40px",
                 }}
             >
                 {NaughtOrCrossValue}

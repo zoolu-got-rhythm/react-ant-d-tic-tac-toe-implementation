@@ -1,8 +1,11 @@
 import { Button, Timeline } from "antd";
 import { NaughtOrCrossValue } from "./Cell";
-import Title from "antd/es/typography/Title";
 import { TimelineItemType } from "antd/es/timeline/Timeline";
 import { ClockCircleOutlined } from "@ant-design/icons";
+
+import { Typography } from "antd";
+
+const { Title } = Typography;
 
 interface TurnHistoryListProps {
     ticTacToeArrayTurnHistory: NaughtOrCrossValue[][];

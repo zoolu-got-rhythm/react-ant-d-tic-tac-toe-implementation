@@ -1,6 +1,6 @@
 import { Cell, NaughtOrCrossValue } from "./Cell";
-import "./App.css";
 import { useHasMounted } from "./hooks/useHasMounted";
+import "./App.css";
 
 export interface BoardDimensionsProps {
     gutterSizeInPx: number;

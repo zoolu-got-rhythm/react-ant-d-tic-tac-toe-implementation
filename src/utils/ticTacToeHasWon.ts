@@ -1,11 +1,13 @@
-import { NaughtOrCrossValue } from "./Cell";
+import { NaughtOrCrossValue } from "../Cell";
 
 interface TicTacToeCheckFor3InARowParameters {
     naughtOrCross: "x" | "o";
     ticTacToeArray: NaughtOrCrossValue[];
 }
 
-export function ticTacToeHasWon(ticTacToeArray: NaughtOrCrossValue[]): NaughtOrCrossValue {
+export function ticTacToeHasWon(
+    ticTacToeArray: NaughtOrCrossValue[],
+): NaughtOrCrossValue {
     return (
         checkFor3InARow({ naughtOrCross: "o", ticTacToeArray }) ||
         checkFor3InARow({ naughtOrCross: "x", ticTacToeArray }) ||
@@ -16,7 +18,7 @@ export function ticTacToeHasWon(ticTacToeArray: NaughtOrCrossValue[]): NaughtOrC
 function checkFor3InARow({
     naughtOrCross,
     ticTacToeArray,
-}: TicTacToeCheckFor3InARowParameters) {
+}: TicTacToeCheckFor3InARowParameters): NaughtOrCrossValue {
     const valid3InARowCombinationsByIndex = [
         [0, 1, 2],
         [3, 4, 5],
@@ -38,4 +40,6 @@ function checkFor3InARow({
             return naughtOrCross;
         }
     }
+
+    return null;
 }

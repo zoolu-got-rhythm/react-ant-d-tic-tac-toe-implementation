@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { Board } from "./Board";
 import { NaughtOrCrossValue } from "./Cell";
-import { ticTacToeHasWon } from "./ticTacToeHasWon";
+import { ticTacToeHasWon } from "./utils/ticTacToeHasWon";
 import { TurnHistoryList } from "./TurnHistoryList";
-import Title from "antd/es/typography/Title";
-import Text from "antd/es/typography/Text";
+import { Typography } from "antd";
+import { isBoardFull } from "./utils/isBoardFull";
+
+const { Title, Text } = Typography;
 
 function App() {
     const [ticTacToeArray, setTicTacToeArray] = useState<NaughtOrCrossValue[]>(
@@ -75,12 +77,17 @@ function App() {
                         }}
                         naughtsAndCrossesArrayData={ticTacToeArray}
                     />
-                    {winnerOfGame && (
+                    {(winnerOfGame && (
                         <Text
                             strong
                             type="success"
                         >{`winner of game is ${winnerOfGame}`}</Text>
-                    )}
+                    )) ||
+                        (isBoardFull(ticTacToeArrayCopy) && (
+                            <Text strong type="warning">
+                                draw
+                            </Text>
+                        ))}
                 </div>
                 <div>
                     <TurnHistoryList
