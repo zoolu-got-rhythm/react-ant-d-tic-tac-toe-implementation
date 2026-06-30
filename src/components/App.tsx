@@ -43,7 +43,10 @@ function App() {
 
             <div id="ticTacToeGameContainer">
                 <div id="leftColumn">
-                    <Text strong> {`next player is ${whosTurnIsIt}`} </Text>
+                    <Text strong>
+                        {" "}
+                        {`next player is ${whosTurnIsIt.toUpperCase()}`}
+                    </Text>
                     <Board
                         cellClickable={!winnerOfGame}
                         gutterSizeInPx={5}

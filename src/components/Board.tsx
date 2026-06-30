@@ -18,7 +18,7 @@ export function Board({
     boardTileSizeInPx,
     onClickTile,
     naughtsAndCrossesArrayData,
-    cellClickable
+    cellClickable,
 }: BoardProps) {
     const boardRows = 3; // this assumption on another file is ok, but in terms of clean coding it's breaking a rule
     const boardColumns = 3; // this assumption on another file is ok, but in terms of clean coding it's breaking a rule
@@ -50,6 +50,7 @@ export function Board({
                                         ];
                                     return (
                                         <Cell
+                                            key={columnIndex}
                                             cellClickable={cellClickable}
                                             onClick={() => {
                                                 onClickTile(
@@ -57,7 +58,7 @@ export function Board({
                                                     columnIndex,
                                                 );
                                             }}
-                                            NaughtOrCrossValue={
+                                            naughtOrCrossValue={
                                                 naughtOrCrossForCurrentCell
                                             }
                                             gutterSizeInPx={gutterSizeInPx}
