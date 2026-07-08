@@ -8,7 +8,7 @@ concepts:
 
 uses the antd component library and playwright for end to end tests, jest for unit tests
 
-![tic-tac-toe screenshot](./tic-tac-toe-app-screenshot.png)
+![tic-tac-toe screenshot](./app-demo.gif)
 
 ## running app
 
