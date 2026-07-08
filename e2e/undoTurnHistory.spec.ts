@@ -1,10 +1,33 @@
 import { test, expect } from "@playwright/test";
 
-test("undo turn history", async ({ page }) => {
+test("turn indicator updates", async ({ page }) => {
     await page.goto("http://localhost:3000/");
-    await page.locator("div:nth-child(3)").first().click();
-    await page.getByRole("button", { name: "back to start" }).click();
-    await expect(page.locator("div:nth-child(3)").first()).toHaveText("");
-    await page.getByRole("button", { name: "go to turn 1" }).click();
-    await expect(page.locator("div:nth-child(3)").first()).toHaveText("x");
+    await page.getByLabel("cell 1 = empty").click({
+        position: {
+            x: 22,
+            y: 11,
+        },
+    });
+    await expect(
+        page.getByRole("button", { name: "go to turn 1" }),
+    ).toBeVisible();
+    await expect(
+        page.getByRole("button", { name: "go to turn 2" }),
+    ).not.toBeVisible();
+
+    await page.getByLabel("cell 2 = empty").click({
+        position: {
+            x: 22,
+            y: 11,
+        },
+    });
+    await expect(
+        page.getByRole("button", { name: "go to turn 2" }),
+    ).toBeVisible();
+
+    await expect(page.getByLabel("cell 2 = o")).toBeVisible();
+
+    page.getByRole("button", { name: "go to turn 1" }).click();
+    
+    await expect(page.getByLabel("cell 2 = empty")).toBeVisible();
 });

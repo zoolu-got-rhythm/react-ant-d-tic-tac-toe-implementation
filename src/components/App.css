@@ -37,6 +37,41 @@
     display: flex;
 }
 
+#reactFundamentals{
+    margin: 0px;
+    color: #888;
+}
+
+@keyframes flashOpacityForWhoIsNextTurn {
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    80% {
+        opacity: 1;
+    }
+}
+
+@keyframes flashOpacityForGameWinner {
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+#nextPlayer {
+    animation: flashOpacityForWhoIsNextTurn 0.8s ease-in-out infinite;
+}
+
+#winnerOfGame {
+    animation: flashOpacityForGameWinner 0.5s ease-in-out infinite;
+}
+
 #historyButtonTurnContainer {
     display: flex;
     flex-direction: column;

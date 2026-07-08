@@ -37,16 +37,31 @@ function App() {
         setWinnerOfGame(naughtOrCrossWinner);
     }, [ticTacToeArray]);
 
+    const boardIsFull = isBoardFull(ticTacToeArrayCopy);
+
     return (
         <div className="App">
-            <Title> tic-tac-toe </Title>
+            <Title> Tic-Tac-Toe </Title>
+            <h4 id="reactFundamentals"> React Fundamentals </h4>
 
             <div id="ticTacToeGameContainer">
                 <div id="leftColumn">
-                    <Text strong>
-                        {" "}
-                        {`next player is ${whosTurnIsIt.toUpperCase()}`}
-                    </Text>
+                    {!winnerOfGame && !boardIsFull ? (
+                        <Text id="nextPlayer" strong>
+                            {" "}
+                            {`next player is ${whosTurnIsIt.toUpperCase()}`}
+                        </Text>
+                    ) : !winnerOfGame && boardIsFull ? (
+                        <Text strong type="warning">
+                            draw
+                        </Text>
+                    ) : (
+                        <Text
+                            id="winnerOfGame"
+                            strong
+                            type="success"
+                        >{`winner of game is ${winnerOfGame}`}</Text>
+                    )}
                     <Board
                         cellClickable={!winnerOfGame}
                         gutterSizeInPx={5}
@@ -81,17 +96,6 @@ function App() {
                         }}
                         naughtsAndCrossesArrayData={ticTacToeArray}
                     />
-                    {(winnerOfGame && (
-                        <Text
-                            strong
-                            type="success"
-                        >{`winner of game is ${winnerOfGame}`}</Text>
-                    )) ||
-                        (isBoardFull(ticTacToeArrayCopy) && (
-                            <Text strong type="warning">
-                                draw
-                            </Text>
-                        ))}
                 </div>
                 <div>
                     <TurnHistoryList

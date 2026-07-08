@@ -50,6 +50,7 @@ export function Board({
                                         ];
                                     return (
                                         <Cell
+                                            cellIndex={indexOfNaughtOrCrossForCurrentCell}
                                             key={columnIndex}
                                             cellClickable={cellClickable}
                                             onClick={() => {

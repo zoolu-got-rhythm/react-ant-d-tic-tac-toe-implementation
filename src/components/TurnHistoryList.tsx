@@ -51,7 +51,6 @@ export function TurnHistoryList({
     return (
         <div id="historyButtonTurnContainer">
             <Title level={3} style={{marginBottom: "20px"}}> turn history </Title>
-
             <Timeline items={timeLineItems} />
         </div>
     );

@@ -2,7 +2,7 @@ import { BoardDimensionsProps } from "./Board";
 import { useHasMounted } from "../hooks/useHasMounted";
 import "./App.css";
 import { Typography } from "antd";
-import { useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 import { timeStamp } from "console";
 import { useRequestAnimationFrameStep } from "../hooks/useRequestionAnimationFrameStep";
 
@@ -13,14 +13,16 @@ export type NaughtOrCrossValue = "x" | "o" | null;
 interface CellProps extends BoardDimensionsProps {
     naughtOrCrossValue: NaughtOrCrossValue;
     onClick: () => void;
+    cellIndex: number; // 0, 1, 2, (row 1), 3, 4, 5 (row 2), 6, 7, 8 (row 3)
 }
 
-export function Cell({
+export const Cell = memo(function ({
     naughtOrCrossValue,
     gutterSizeInPx,
     boardTileSizeInPx,
     onClick,
     cellClickable,
+    cellIndex,
 }: CellProps) {
     useHasMounted("<Cell />");
 
@@ -28,6 +30,10 @@ export function Cell({
 
     const [requestAnimationFrameStep, cancelRequestAnimationFrameStep] =
         useRequestAnimationFrameStep();
+
+    const cellDataValue = naughtOrCrossValue
+        ? `cell ${cellIndex} = ${naughtOrCrossValue}`
+        : `cell ${cellIndex} = empty`;
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -39,13 +45,13 @@ export function Cell({
         const size = boardTileSizeInPx;
         canvas.width = size * devicePixelRatio;
         canvas.height = size * devicePixelRatio;
-        // canvas.style.width = `${size}px`;
-        // canvas.style.height = `${size}px`;
 
         const context = canvas.getContext("2d");
         if (!context) {
             return;
         }
+
+        const drawUpdateSpeedInMilliseconds = 1000 / 60;
 
         context.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
         context.clearRect(0, 0, size, size);
@@ -77,7 +83,7 @@ export function Cell({
                 }
 
                 circleDrawProgressInRadians += circleSegment;
-            }, 1000 / 60);
+            }, drawUpdateSpeedInMilliseconds);
         } else if (naughtOrCrossValue === "x") {
             let currentPercentage = 0;
             let lineToDraw: "leftToBottomRight" | "rightToBottomLeft" =
@@ -86,9 +92,6 @@ export function Cell({
             let lastPercentage = 0;
             requestAnimationFrameStep(() => {
                 currentPercentage += 0.2;
-
-                console.log("percentages", lastPercentage, currentPercentage);
-
                 context.beginPath();
 
                 if (lineToDraw === "leftToBottomRight") {
@@ -125,13 +128,15 @@ export function Cell({
                     currentPercentage = 0;
                     lastPercentage = 0;
                 }
-            }, 1000 / 60);
+            }, drawUpdateSpeedInMilliseconds);
         }
     }, [boardTileSizeInPx, naughtOrCrossValue]);
 
     return (
         <canvas
             ref={canvasRef}
+            data-value={cellDataValue}
+            aria-label={cellDataValue}
             style={{
                 marginLeft: `${gutterSizeInPx}px`,
                 width: `${boardTileSizeInPx}px`,
@@ -141,4 +146,4 @@ export function Cell({
             className={`cell ${cellClickable && "cellClickable"}`}
         />
     );
-}
+});
