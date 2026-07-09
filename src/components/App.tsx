@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import { Board } from "./Board";
 import { NaughtOrCrossValue } from "./Cell";
@@ -39,6 +39,32 @@ function App() {
 
     const boardIsFull = isBoardFull(ticTacToeArrayCopy);
 
+    const handleClickTile = useCallback(
+        function (rowIndex: number, columnIndex: number): void {
+            if (!winnerOfGame) {
+                const indexToUpdateInTicTacToeArray =
+                    rowIndex * 3 + columnIndex;
+                if (
+                    ticTacToeArrayCopy[indexToUpdateInTicTacToeArray] === null
+                ) {
+                    ticTacToeArrayCopy[indexToUpdateInTicTacToeArray] =
+                        whosTurnIsIt;
+
+                    setTicTacToeArrayTurnHistory([
+                        ...ticTacToeArrayTurnHistory.slice(
+                            0,
+                            ticTacToeArrayCopyEntriesLength,
+                        ),
+                        ticTacToeArrayCopy,
+                    ]);
+
+                    setTicTacToeArray(ticTacToeArrayCopy);
+                }
+            }
+        },
+        [winnerOfGame],
+    );
+
     return (
         <div className="App">
             <Title> Tic-Tac-Toe </Title>
@@ -66,34 +92,7 @@ function App() {
                         cellClickable={!winnerOfGame}
                         gutterSizeInPx={5}
                         boardTileSizeInPx={ticTacToeBoardSize}
-                        onClickTile={function (
-                            rowIndex: number,
-                            columnIndex: number,
-                        ): void {
-                            if (!winnerOfGame) {
-                                const indexToUpdateInTicTacToeArray =
-                                    rowIndex * 3 + columnIndex;
-                                if (
-                                    ticTacToeArrayCopy[
-                                        indexToUpdateInTicTacToeArray
-                                    ] === null
-                                ) {
-                                    ticTacToeArrayCopy[
-                                        indexToUpdateInTicTacToeArray
-                                    ] = whosTurnIsIt;
-
-                                    setTicTacToeArrayTurnHistory([
-                                        ...ticTacToeArrayTurnHistory.slice(
-                                            0,
-                                            ticTacToeArrayCopyEntriesLength,
-                                        ),
-                                        ticTacToeArrayCopy,
-                                    ]);
-
-                                    setTicTacToeArray(ticTacToeArrayCopy);
-                                }
-                            }
-                        }}
+                        onClickTile={handleClickTile}
                         naughtsAndCrossesArrayData={ticTacToeArray}
                     />
                 </div>
