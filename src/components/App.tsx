@@ -6,6 +6,11 @@ import { ticTacToeHasWon } from "../utils/ticTacToeHasWon";
 import { TurnHistoryList } from "./TurnHistoryList";
 import { Typography } from "antd";
 import { isBoardFull } from "../utils/isBoardFull";
+import { countPlacedSymbols } from "../utils/countPlacedSymbols";
+
+export type HandleClickTile = (
+    indexOfTileToUpdate: number,
+) => void;
 
 const { Title, Text } = Typography;
 
@@ -24,9 +29,9 @@ function App() {
 
     let ticTacToeArrayCopy = [...ticTacToeArray];
 
-    const ticTacToeArrayCopyEntriesLength = ticTacToeArrayCopy.filter(
-        (symbol) => symbol === "o" || symbol === "x",
-    ).length;
+    const ticTacToeArrayCopyEntriesLength = countPlacedSymbols(
+        ticTacToeArrayCopy,
+    );
 
     let whosTurnIsIt: "x" | "o" =
         ticTacToeArrayCopyEntriesLength % 2 === 0 ? "x" : "o";
@@ -39,28 +44,34 @@ function App() {
 
     const boardIsFull = isBoardFull(ticTacToeArrayCopy);
 
-    const handleClickTile = useCallback(
-        function (rowIndex: number, columnIndex: number): void {
-            if (!winnerOfGame) {
-                const indexToUpdateInTicTacToeArray =
-                    rowIndex * 3 + columnIndex;
-                if (
-                    ticTacToeArrayCopy[indexToUpdateInTicTacToeArray] === null
-                ) {
-                    ticTacToeArrayCopy[indexToUpdateInTicTacToeArray] =
-                        whosTurnIsIt;
-
-                    setTicTacToeArrayTurnHistory([
-                        ...ticTacToeArrayTurnHistory.slice(
-                            0,
-                            ticTacToeArrayCopyEntriesLength,
-                        ),
-                        ticTacToeArrayCopy,
-                    ]);
-
-                    setTicTacToeArray(ticTacToeArrayCopy);
-                }
+    const handleClickTile: HandleClickTile = useCallback(
+        function (indexOfTileToUpdate: number): void {
+            if (winnerOfGame) {
+                return;
             }
+
+            setTicTacToeArray((previousTicTacToeArray) => {
+                if (previousTicTacToeArray[indexOfTileToUpdate] !== null) {
+                    return previousTicTacToeArray;
+                }
+
+                const entriesLength = countPlacedSymbols(
+                    previousTicTacToeArray,
+                );
+
+                const symbolToPlace: NaughtOrCrossValue =
+                    entriesLength % 2 === 0 ? "x" : "o";
+
+                const nextTicTacToeArray = [...previousTicTacToeArray];
+                nextTicTacToeArray[indexOfTileToUpdate] = symbolToPlace;
+
+                setTicTacToeArrayTurnHistory((previousTurnHistory) => [
+                    ...previousTurnHistory.slice(0, entriesLength),
+                    nextTicTacToeArray,
+                ]);
+
+                return nextTicTacToeArray;
+            });
         },
         [winnerOfGame],
     );

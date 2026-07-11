@@ -1,15 +1,16 @@
 import { Cell, NaughtOrCrossValue } from "./Cell";
 import { useHasMounted } from "../hooks/useHasMounted";
 import "./App.css";
+import { HandleClickTile } from "./App";
 
 export interface BoardDimensionsProps {
     gutterSizeInPx: number;
     boardTileSizeInPx: number;
     cellClickable: boolean;
+    onClickTile: HandleClickTile;
 }
 
 export interface BoardProps extends BoardDimensionsProps {
-    onClickTile: (rowIndex: number, columnIndex: number) => void;
     naughtsAndCrossesArrayData: NaughtOrCrossValue[];
 }
 
@@ -50,15 +51,14 @@ export function Board({
                                         ];
                                     return (
                                         <Cell
-                                            cellIndex={indexOfNaughtOrCrossForCurrentCell}
-                                            key={columnIndex}
+                                            cellIndex={
+                                                indexOfNaughtOrCrossForCurrentCell
+                                            }
+                                            key={
+                                                indexOfNaughtOrCrossForCurrentCell
+                                            }
                                             cellClickable={cellClickable}
-                                            onClick={() => {
-                                                onClickTile(
-                                                    rowIndex,
-                                                    columnIndex,
-                                                );
-                                            }}
+                                            onClickTile={onClickTile}
                                             naughtOrCrossValue={
                                                 naughtOrCrossForCurrentCell
                                             }

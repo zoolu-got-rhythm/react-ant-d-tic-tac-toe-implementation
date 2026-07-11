@@ -12,7 +12,6 @@ export type NaughtOrCrossValue = "x" | "o" | null;
 
 interface CellProps extends BoardDimensionsProps {
     naughtOrCrossValue: NaughtOrCrossValue;
-    onClick: () => void;
     cellIndex: number; // 0, 1, 2, (row 1), 3, 4, 5 (row 2), 6, 7, 8 (row 3)
 }
 
@@ -20,10 +19,11 @@ export const Cell = memo(function ({
     naughtOrCrossValue,
     gutterSizeInPx,
     boardTileSizeInPx,
-    onClick,
+    onClickTile,
     cellClickable,
     cellIndex,
 }: CellProps) {
+    console.log("naught or cross value", naughtOrCrossValue);
     useHasMounted("<Cell />");
 
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -132,6 +132,10 @@ export const Cell = memo(function ({
         }
     }, [boardTileSizeInPx, naughtOrCrossValue]);
 
+    const handleClickTile = () => {
+        onClickTile(cellIndex);
+    };
+
     return (
         <canvas
             ref={canvasRef}
@@ -142,7 +146,7 @@ export const Cell = memo(function ({
                 width: `${boardTileSizeInPx}px`,
                 height: `${boardTileSizeInPx}px`,
             }}
-            onClick={onClick}
+            onClick={handleClickTile}
             className={`cell ${cellClickable && "cellClickable"}`}
         />
     );
