@@ -1,5 +1,7 @@
 # tic-tac-toe react app
 
+uses the antd component library and playwright for end to end tests, jest for unit tests
+
 ![tic-tac-toe screenshot](./app-demo.gif)
 
 React App (tic-tac-toe or naughts & crosses) that demonstrates usage of widely used react
@@ -40,8 +42,6 @@ graph TD
 
     Tiles --> Tile9[Tile]
 ```
-
-uses the antd component library and playwright for end to end tests, jest for unit tests
 
 ## running app
 
