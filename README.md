@@ -1,14 +1,37 @@
 # tic-tac-toe react app
 
+![tic-tac-toe screenshot](./app-demo.gif)
+
 React App (tic-tac-toe or naughts & crosses) that demonstrates usage of widely used react
-concepts: 
+concepts:
+
 - hooks
 - custom hooks
 - component driven design/composition
 
-uses the antd component library and playwright for end to end tests, jest for unit tests
+## React UI Render Tree
 
-![tic-tac-toe screenshot](./app-demo.gif)
+```Mermaid
+    graph TD
+        App["<App />"]
+
+        App --> Board["<Board />"]
+        App --> TurnHistory["<TurnHistory />"]
+
+        Board --> Tiles["tiles.map(...)"]
+
+        Tiles --> Tile1["<Tile />"]
+        Tiles --> Tile2["<Tile />"]
+        Tiles --> Tile3["<Tile />"]
+        Tiles --> Tile4["<Tile />"]
+        Tiles --> Tile5["<Tile />"]
+        Tiles --> Tile6["<Tile />"]
+        Tiles --> Tile7["<Tile />"]
+        Tiles --> Tile8["<Tile />"]
+        Tiles --> Tile9["<Tile />"]
+```
+
+uses the antd component library and playwright for end to end tests, jest for unit tests
 
 ## running app
 
