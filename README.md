@@ -12,24 +12,33 @@ concepts:
 ## React UI Render Tree
 
 ```mermaid
-
 graph TD
-    App["<App />"]
 
-    App --> Board["<Board />"]
-    App --> TurnHistory["<TurnHistory />"]
+    App[App]
+
+    App --> Board[Board]
+
+    App --> TurnHistory[TurnHistory]
 
     Board --> Tiles["tiles.map(...)"]
 
-    Tiles --> Tile1["<Tile />"]
-    Tiles --> Tile2["<Tile />"]
-    Tiles --> Tile3["<Tile />"]
-    Tiles --> Tile4["<Tile />"]
-    Tiles --> Tile5["<Tile />"]
-    Tiles --> Tile6["<Tile />"]
-    Tiles --> Tile7["<Tile />"]
-    Tiles --> Tile8["<Tile />"]
-    Tiles --> Tile9["<Tile />"]
+    Tiles --> Tile1[Tile]
+
+    Tiles --> Tile2[Tile]
+
+    Tiles --> Tile3[Tile]
+
+    Tiles --> Tile4[Tile]
+
+    Tiles --> Tile5[Tile]
+
+    Tiles --> Tile6[Tile]
+
+    Tiles --> Tile7[Tile]
+
+    Tiles --> Tile8[Tile]
+
+    Tiles --> Tile9[Tile]
 ```
 
 uses the antd component library and playwright for end to end tests, jest for unit tests
