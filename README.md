@@ -11,7 +11,7 @@ concepts:
 
 ## React UI Render Tree
 
-```Mermaid
+```mermaid
 
 graph TD
     App["<App />"]
