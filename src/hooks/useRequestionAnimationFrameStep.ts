@@ -49,7 +49,11 @@ export function useRequestAnimationFrameStep(): [
             window.cancelAnimationFrame(animIdRef.current);
         }
 
-        animIdRef.current = window.requestAnimationFrame(step);
+        workFunctionCallback(); // initial call
+
+        if (!isCancelledRef.current) {
+            animIdRef.current = window.requestAnimationFrame(step);
+        }
     }
 
     function cancelRequestAnimiationFrameStep() {

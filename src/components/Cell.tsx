@@ -3,7 +3,6 @@ import { useHasMounted } from "../hooks/useHasMounted";
 import "./App.css";
 import { Typography } from "antd";
 import { memo, useEffect, useRef } from "react";
-import { timeStamp } from "console";
 import { useRequestAnimationFrameStep } from "../hooks/useRequestionAnimationFrameStep";
 
 const { Text } = Typography;

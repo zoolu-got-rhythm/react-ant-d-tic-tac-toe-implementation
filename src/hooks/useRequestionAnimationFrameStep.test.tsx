@@ -36,13 +36,39 @@ describe("useRequestAnimationFrameStep", () => {
             result.current[0](workFunctionCallback, 100);
         });
 
-        expect(requestAnimationFrameCallbacks).toHaveLength(1);
+        expect(requestAnimationFrameCallbacks).toHaveLength(0);
+        expect(workFunctionCallback).toHaveBeenCalledTimes(1);
+
+    });
+
+    it("calls the work function on each simulated interval tick", () => {
+        const { result } = renderHook(() => useRequestAnimationFrameStep());
+
+        const workFunctionCallback = jest.fn();
 
         act(() => {
-            requestAnimationFrameCallbacks[0](100);
+            result.current[0](workFunctionCallback, 100);
         });
 
+        // initial call fires synchronously
         expect(workFunctionCallback).toHaveBeenCalledTimes(1);
-        expect(requestAnimationFrameCallbacks).toHaveLength(1);
+
+        // first scheduled frame only seeds the start timestamp
+        act(() => {
+            requestAnimationFrameCallbacks[0](0);
+        });
+        expect(workFunctionCallback).toHaveBeenCalledTimes(1);
+
+        // simulated 100ms later - interval elapsed, callback fires again
+        act(() => {
+            requestAnimationFrameCallbacks[1](100);
+        });
+        expect(workFunctionCallback).toHaveBeenCalledTimes(2);
+
+        // another simulated 100ms later - fires a third time
+        act(() => {
+            requestAnimationFrameCallbacks[2](200);
+        });
+        expect(workFunctionCallback).toHaveBeenCalledTimes(3);
     });
 });
