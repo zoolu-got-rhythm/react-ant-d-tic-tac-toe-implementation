@@ -8,9 +8,7 @@ import { Typography } from "antd";
 import { isBoardFull } from "../utils/isBoardFull";
 import { countPlacedSymbols } from "../utils/countPlacedSymbols";
 
-export type HandleClickTile = (
-    indexOfTileToUpdate: number,
-) => void;
+export type HandleClickTile = (indexOfTileToUpdate: number) => void;
 
 const { Title, Text } = Typography;
 
@@ -29,9 +27,8 @@ function App() {
 
     let ticTacToeArrayCopy = [...ticTacToeArray];
 
-    const ticTacToeArrayCopyEntriesLength = countPlacedSymbols(
-        ticTacToeArrayCopy,
-    );
+    const ticTacToeArrayCopyEntriesLength =
+        countPlacedSymbols(ticTacToeArrayCopy);
 
     let whosTurnIsIt: "x" | "o" =
         ticTacToeArrayCopyEntriesLength % 2 === 0 ? "x" : "o";
@@ -79,7 +76,9 @@ function App() {
     return (
         <div className="App">
             <Title> Tic-Tac-Toe </Title>
-            <h4 id="reactFundamentals"> React Fundamentals </h4>
+            <h4 id="reactFundamentals">
+                React Fundamentals & Advanced Concepts
+            </h4>
 
             <div id="ticTacToeGameContainer">
                 <div id="leftColumn">
@@ -109,6 +108,7 @@ function App() {
                 </div>
                 <div>
                     <TurnHistoryList
+                        naughtsAndCrossesArrayData={ticTacToeArray}
                         ticTacToeArrayTurnHistory={ticTacToeArrayTurnHistory}
                         onTurnHistoryClick={function (
                             turnHistoryArrayForThatTurn: NaughtOrCrossValue[],

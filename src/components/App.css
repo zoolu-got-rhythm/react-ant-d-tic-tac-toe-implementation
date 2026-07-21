@@ -37,8 +37,9 @@
     display: flex;
 }
 
-#reactFundamentals{
+#reactFundamentals {
     margin: 0px;
+    margin-top: -12px;
     color: #888;
 }
 
