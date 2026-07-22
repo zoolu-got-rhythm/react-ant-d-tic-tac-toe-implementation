@@ -60,8 +60,10 @@ export const Cell = memo(function ({
         if (naughtOrCrossValue === "o") {
             const radius = (size - inset * 2) / 2;
             let fullCircle = Math.PI * 2;
-            let circleSegment = (Math.PI * 2) / 10;
+            let circleSegment = fullCircle / 10;
             let circleDrawProgressInRadians = circleSegment;
+
+            let startAngle = (Math.PI * 3) / 2;
 
             requestAnimationFrameStep(() => {
                 context.beginPath();
@@ -69,8 +71,8 @@ export const Cell = memo(function ({
                     size / 2,
                     size / 2,
                     radius,
-                    circleDrawProgressInRadians - circleDrawProgressInRadians,
-                    circleDrawProgressInRadians,
+                    startAngle,
+                    startAngle + circleDrawProgressInRadians,
                 );
                 context.stroke();
 
@@ -129,6 +131,7 @@ export const Cell = memo(function ({
 
         // clean-up to stop canvas drawing
         return () => {
+            console.log("clear anim");
             cancelRequestAnimationFrameStep();
         };
     }, [boardTileSizeInPx, naughtOrCrossValue]);
