@@ -34,9 +34,7 @@ export function TurnHistoryList({
             naughtsAndCrossesArrayData,
         );
 
-        if (nOfPlacesSymbolsOnBoard === ticTacToeArrayTurnHistory.length) {
-            setCurrentlySelectedTurnIndex(nOfPlacesSymbolsOnBoard - 1);
-        }
+        setCurrentlySelectedTurnIndex(nOfPlacesSymbolsOnBoard - 1);
     }, [naughtsAndCrossesArrayData]);
 
     let timeLineItems: TimelineItemType[] = [
