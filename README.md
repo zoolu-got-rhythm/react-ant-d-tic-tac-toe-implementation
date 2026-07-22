@@ -10,6 +10,8 @@ concepts:
 - hooks
 - custom hooks
 - component driven design/composition
+- usage of memo and useCallback
+- usage of useRef and "low level" html canvas drawing/abstraction
 
 ## React UI Render Tree
 
