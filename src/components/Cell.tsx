@@ -126,6 +126,11 @@ export const Cell = memo(function ({
                 }
             }, drawUpdateSpeedInMilliseconds);
         }
+
+        // clean-up to stop canvas drawing
+        return () => {
+            cancelRequestAnimationFrameStep();
+        };
     }, [boardTileSizeInPx, naughtOrCrossValue]);
 
     const handleClickTile = () => {
