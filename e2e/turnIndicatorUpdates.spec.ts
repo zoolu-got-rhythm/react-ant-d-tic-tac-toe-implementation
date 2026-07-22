@@ -11,9 +11,9 @@ test("turn indicator updates", async ({ page }) => {
     await expect(
         page.getByRole("button", { name: "go to turn 1" }),
     ).toBeVisible();
-     await expect(
+    await expect(
         page.getByRole("button", { name: "go to turn 2" }),
-    ).not.toBeVisible()
+    ).not.toBeVisible();
 
     await page.getByLabel("cell 2 = empty").click({
         position: {

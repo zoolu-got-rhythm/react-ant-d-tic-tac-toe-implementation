@@ -38,7 +38,6 @@ describe("useRequestAnimationFrameStep", () => {
 
         expect(requestAnimationFrameCallbacks).toHaveLength(0);
         expect(workFunctionCallback).toHaveBeenCalledTimes(1);
-
     });
 
     it("calls the work function on each simulated interval tick", () => {

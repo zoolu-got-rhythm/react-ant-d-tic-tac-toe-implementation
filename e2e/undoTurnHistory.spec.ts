@@ -28,6 +28,6 @@ test("turn indicator updates", async ({ page }) => {
     await expect(page.getByLabel("cell 2 = o")).toBeVisible();
 
     page.getByRole("button", { name: "go to turn 1" }).click();
-    
+
     await expect(page.getByLabel("cell 2 = empty")).toBeVisible();
 });
