@@ -1,4 +1,5 @@
-import { Cell, NaughtOrCrossValue } from "./Cell";
+import { Cell } from "./Cell";
+import { NaughtOrCrossValue } from "../types/ticTacToe";
 import { useHasMounted } from "../hooks/useHasMounted";
 import "./App.css";
 import { HandleClickTile } from "./App";

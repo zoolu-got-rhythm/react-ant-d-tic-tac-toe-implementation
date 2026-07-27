@@ -1,41 +1,46 @@
 import { Button, Timeline } from "antd";
-import { NaughtOrCrossValue } from "./Cell";
+import { NaughtOrCrossValue } from "../types/ticTacToe";
 import { TimelineItemType } from "antd/es/timeline/Timeline";
 import { ClockCircleOutlined } from "@ant-design/icons";
 
 import { Typography } from "antd";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { countPlacedSymbols } from "../utils/countPlacedSymbols";
 
 const { Title } = Typography;
 
 interface TurnHistoryListProps {
     ticTacToeArrayTurnHistory: NaughtOrCrossValue[][];
-    onTurnHistoryClick: (
+    // liveBoardData is the authoritative, server-driven board. It is only used
+    // to keep the "latest turn" highlighted as new moves arrive - previewing
+    // history no longer mutates the live game (there's a real opponent now).
+    liveBoardData: NaughtOrCrossValue[];
+    isPreviewing: boolean;
+    onPreviewTurn: (
         turnHistoryArrayForThatTurn: NaughtOrCrossValue[],
         indexForThatTurn: number,
     ) => void;
-    onResetGameClick: () => void;
-    naughtsAndCrossesArrayData: NaughtOrCrossValue[];
+    onPreviewStart: () => void;
+    onReturnToLiveGame: () => void;
 }
 
 export function TurnHistoryList({
     ticTacToeArrayTurnHistory,
-    onTurnHistoryClick,
-    onResetGameClick,
-    naughtsAndCrossesArrayData,
+    liveBoardData,
+    isPreviewing,
+    onPreviewTurn,
+    onPreviewStart,
+    onReturnToLiveGame,
 }: TurnHistoryListProps) {
     const [currentlySelectedTurnIndex, setCurrentlySelectedTurnIndex] =
         useState<number | null>(null);
 
-    // this use effect block handles logic for always making last turn in list "highlighted" when a player does a new turn
+    // always highlight the latest live turn in the list once a real move
+    // comes in, regardless of what was being previewed before
     useEffect(() => {
-        const nOfPlacesSymbolsOnBoard = countPlacedSymbols(
-            naughtsAndCrossesArrayData,
-        );
-
+        const nOfPlacesSymbolsOnBoard = countPlacedSymbols(liveBoardData);
         setCurrentlySelectedTurnIndex(nOfPlacesSymbolsOnBoard - 1);
-    }, [naughtsAndCrossesArrayData]);
+    }, [liveBoardData]);
 
     let timeLineItems: TimelineItemType[] = [
         {
@@ -44,17 +49,17 @@ export function TurnHistoryList({
                     style={{ marginTop: "-10px" }}
                     disabled={ticTacToeArrayTurnHistory.length === 0}
                     type={
-                        currentlySelectedTurnIndex === -1
+                        isPreviewing && currentlySelectedTurnIndex === -1
                             ? "primary"
                             : "default"
                     }
                     onClick={() => {
-                        onResetGameClick();
+                        onPreviewStart();
                         setCurrentlySelectedTurnIndex(-1);
                     }}
                     className="historyButtonTurn"
                 >
-                    back to start
+                    preview start
                 </Button>
             ),
         },
@@ -67,14 +72,16 @@ export function TurnHistoryList({
                 <Button
                     style={{ marginTop: "-10px" }}
                     type={
-                        i === currentlySelectedTurnIndex ? "primary" : "default"
+                        isPreviewing && i === currentlySelectedTurnIndex
+                            ? "primary"
+                            : "default"
                     }
                     onClick={() => {
-                        onTurnHistoryClick(arrayFromTurn, i);
+                        onPreviewTurn(arrayFromTurn, i);
                         setCurrentlySelectedTurnIndex(i);
                     }}
                     className="historyButtonTurn"
-                >{`go to turn ${i + 1}`}</Button>
+                >{`preview turn ${i + 1}`}</Button>
             ),
         });
     });
@@ -85,6 +92,16 @@ export function TurnHistoryList({
                 {" "}
                 turn history{" "}
             </Title>
+            {isPreviewing ? (
+                <Button
+                    id="returnToLiveGameButton"
+                    type="dashed"
+                    style={{ marginBottom: "10px" }}
+                    onClick={onReturnToLiveGame}
+                >
+                    return to live game
+                </Button>
+            ) : null}
             <Timeline items={timeLineItems} />
         </div>
     );

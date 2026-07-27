@@ -1,77 +1,136 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { io, Socket } from "socket.io-client";
 import "./App.css";
 import { Board } from "./Board";
-import { NaughtOrCrossValue } from "./Cell";
-import { ticTacToeHasWon } from "../utils/ticTacToeHasWon";
+import { NaughtOrCrossValue } from "../types/ticTacToe";
+import {
+    ClientToServerEvents,
+    ServerToClientEvents,
+} from "../types/socketEvents";
 import { TurnHistoryList } from "./TurnHistoryList";
+import { PlayerNameEntry } from "./PlayerNameEntry";
 import { Typography } from "antd";
-import { isBoardFull } from "../utils/isBoardFull";
-import { countPlacedSymbols } from "../utils/countPlacedSymbols";
 
 export type HandleClickTile = (indexOfTileToUpdate: number) => void;
 
 const { Title, Text } = Typography;
 
+const serverUrl =
+    process.env.REACT_APP_SERVER_URL ?? "http://localhost:4000";
+
+type GamePhase = "enteringName" | "waiting" | "playing" | "over";
+
 function App() {
-    const [ticTacToeArray, setTicTacToeArray] = useState<NaughtOrCrossValue[]>(
-        new Array(9).fill(null),
+    const socketRef = useRef<Socket<
+        ServerToClientEvents,
+        ClientToServerEvents
+    > | null>(null);
+
+    const [gamePhase, setGamePhase] = useState<GamePhase>("enteringName");
+    const [roomId, setRoomId] = useState<string | null>(null);
+    const [mySymbol, setMySymbol] = useState<"x" | "o" | null>(null);
+    const [myName, setMyName] = useState<string | null>(null);
+    const [opponentName, setOpponentName] = useState<string | null>(null);
+    const [opponentLeftMessage, setOpponentLeftMessage] = useState<
+        string | null
+    >(null);
+
+    const [ticTacToeArray, setTicTacToeArray] = useState<
+        NaughtOrCrossValue[]
+    >(new Array(9).fill(null));
+    const [ticTacToeArrayTurnHistory, setTicTacToeArrayTurnHistory] =
+        useState<NaughtOrCrossValue[][]>([]);
+    const [currentTurn, setCurrentTurn] = useState<"x" | "o">("x");
+    const [winnerOfGame, setWinnerOfGame] = useState<NaughtOrCrossValue>(
+        null,
     );
+    const [isDraw, setIsDraw] = useState(false);
 
-    const [ticTacToeArrayTurnHistory, setTicTacToeArrayTurnHistory] = useState<
-        NaughtOrCrossValue[][]
-    >([]);
-
-    const [winnerOfGame, setWinnerOfGame] = useState<NaughtOrCrossValue>(null);
+    const [previewedBoard, setPreviewedBoard] = useState<
+        NaughtOrCrossValue[] | null
+    >(null);
 
     const ticTacToeBoardSize = 50;
 
-    let ticTacToeArrayCopy = [...ticTacToeArray];
-
-    const ticTacToeArrayCopyEntriesLength =
-        countPlacedSymbols(ticTacToeArrayCopy);
-
-    let whosTurnIsIt: "x" | "o" =
-        ticTacToeArrayCopyEntriesLength % 2 === 0 ? "x" : "o";
-
     useEffect(() => {
-        const naughtOrCrossWinner: NaughtOrCrossValue =
-            ticTacToeHasWon(ticTacToeArray);
-        setWinnerOfGame(naughtOrCrossWinner);
-    }, [ticTacToeArray]);
+        const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
+            io(serverUrl);
+        socketRef.current = socket;
 
-    const boardIsFull = isBoardFull(ticTacToeArrayCopy);
+        socket.on("waitingForOpponent", () => {
+            setGamePhase("waiting");
+        });
+
+        socket.on(
+            "gameStart",
+            ({ roomId, yourSymbol, yourName, opponentName, board }) => {
+                setRoomId(roomId);
+                setMySymbol(yourSymbol);
+                setMyName(yourName);
+                setOpponentName(opponentName);
+                setOpponentLeftMessage(null);
+                setTicTacToeArray(board);
+                setTicTacToeArrayTurnHistory([]);
+                setCurrentTurn("x");
+                setWinnerOfGame(null);
+                setIsDraw(false);
+                setPreviewedBoard(null);
+                setGamePhase("playing");
+            },
+        );
+
+        socket.on(
+            "stateUpdate",
+            ({ board, boardHistory, turn }) => {
+                setTicTacToeArray(board);
+                setTicTacToeArrayTurnHistory(boardHistory);
+                setCurrentTurn(turn);
+                setPreviewedBoard(null);
+            },
+        );
+
+        socket.on("gameOver", ({ winner, isDraw }) => {
+            setWinnerOfGame(winner);
+            setIsDraw(isDraw);
+            setGamePhase("over");
+        });
+
+        socket.on("opponentLeft", ({ opponentName }) => {
+            setOpponentLeftMessage(`${opponentName} left the game`);
+        });
+
+        return () => {
+            socket.disconnect();
+        };
+    }, []);
+
+    const handleJoin = useCallback((playerName: string) => {
+        socketRef.current?.emit("join", { playerName });
+    }, []);
 
     const handleClickTile: HandleClickTile = useCallback(
         function (indexOfTileToUpdate: number): void {
-            if (winnerOfGame) {
+            if (!roomId || previewedBoard) {
                 return;
             }
-
-            setTicTacToeArray((previousTicTacToeArray) => {
-                if (previousTicTacToeArray[indexOfTileToUpdate] !== null) {
-                    return previousTicTacToeArray;
-                }
-
-                const entriesLength = countPlacedSymbols(
-                    previousTicTacToeArray,
-                );
-
-                const symbolToPlace: NaughtOrCrossValue =
-                    entriesLength % 2 === 0 ? "x" : "o";
-
-                const nextTicTacToeArray = [...previousTicTacToeArray];
-                nextTicTacToeArray[indexOfTileToUpdate] = symbolToPlace;
-
-                setTicTacToeArrayTurnHistory((previousTurnHistory) => [
-                    ...previousTurnHistory.slice(0, entriesLength),
-                    nextTicTacToeArray,
-                ]);
-
-                return nextTicTacToeArray;
+            socketRef.current?.emit("makeMove", {
+                roomId,
+                cellIndex: indexOfTileToUpdate,
             });
         },
-        [winnerOfGame],
+        [roomId, previewedBoard],
     );
+
+    const isConnectedToGame = gamePhase === "playing" || gamePhase === "over";
+    const isMyTurn = mySymbol !== null && currentTurn === mySymbol;
+    const cellClickable =
+        isConnectedToGame &&
+        previewedBoard === null &&
+        !winnerOfGame &&
+        !isDraw &&
+        isMyTurn;
+
+    const boardToDisplay = previewedBoard ?? ticTacToeArray;
 
     return (
         <div className="App">
@@ -80,48 +139,78 @@ function App() {
                 React Fundamentals & Advanced Concepts
             </h4>
 
-            <div id="ticTacToeGameContainer">
-                <div id="leftColumn">
-                    {!winnerOfGame && !boardIsFull ? (
-                        <Text id="nextPlayer" strong>
-                            {" "}
-                            {`next player is ${whosTurnIsIt.toUpperCase()}`}
+            {gamePhase === "enteringName" || gamePhase === "waiting" ? (
+                <PlayerNameEntry
+                    onJoin={handleJoin}
+                    disabled={gamePhase === "waiting"}
+                    statusText={
+                        gamePhase === "waiting"
+                            ? "waiting for an opponent to join..."
+                            : null
+                    }
+                />
+            ) : (
+                <div id="ticTacToeGameContainer">
+                    <div id="leftColumn">
+                        <Text id="opponentInfo">
+                            {`you are ${mySymbol?.toUpperCase()} — playing against ${opponentName}`}
                         </Text>
-                    ) : !winnerOfGame && boardIsFull ? (
-                        <Text strong type="warning">
-                            draw
-                        </Text>
-                    ) : (
-                        <Text
-                            id="winnerOfGame"
-                            strong
-                            type="success"
-                        >{`winner of game is ${winnerOfGame}`}</Text>
-                    )}
-                    <Board
-                        cellClickable={!winnerOfGame}
-                        gutterSizeInPx={5}
-                        boardTileSizeInPx={ticTacToeBoardSize}
-                        onClickTile={handleClickTile}
-                        naughtsAndCrossesArrayData={ticTacToeArray}
-                    />
+                        {opponentLeftMessage ? (
+                            <Text id="opponentLeftMessage" type="danger">
+                                {opponentLeftMessage}
+                            </Text>
+                        ) : !winnerOfGame && !isDraw ? (
+                            <Text id="nextPlayer" strong>
+                                {" "}
+                                {`next player is ${
+                                    isMyTurn ? "you" : opponentName
+                                }`}
+                            </Text>
+                        ) : !winnerOfGame && isDraw ? (
+                            <Text strong type="warning">
+                                draw
+                            </Text>
+                        ) : (
+                            <Text
+                                id="winnerOfGame"
+                                strong
+                                type="success"
+                            >{`winner of game is ${
+                                winnerOfGame === mySymbol
+                                    ? myName
+                                    : opponentName
+                            }`}</Text>
+                        )}
+                        <Board
+                            cellClickable={cellClickable}
+                            gutterSizeInPx={5}
+                            boardTileSizeInPx={ticTacToeBoardSize}
+                            onClickTile={handleClickTile}
+                            naughtsAndCrossesArrayData={boardToDisplay}
+                        />
+                    </div>
+                    <div>
+                        <TurnHistoryList
+                            liveBoardData={ticTacToeArray}
+                            ticTacToeArrayTurnHistory={
+                                ticTacToeArrayTurnHistory
+                            }
+                            isPreviewing={previewedBoard !== null}
+                            onPreviewTurn={function (
+                                turnHistoryArrayForThatTurn: NaughtOrCrossValue[],
+                            ): void {
+                                setPreviewedBoard(turnHistoryArrayForThatTurn);
+                            }}
+                            onPreviewStart={function (): void {
+                                setPreviewedBoard(Array(9).fill(null));
+                            }}
+                            onReturnToLiveGame={function (): void {
+                                setPreviewedBoard(null);
+                            }}
+                        />
+                    </div>
                 </div>
-                <div>
-                    <TurnHistoryList
-                        naughtsAndCrossesArrayData={ticTacToeArray}
-                        ticTacToeArrayTurnHistory={ticTacToeArrayTurnHistory}
-                        onTurnHistoryClick={function (
-                            turnHistoryArrayForThatTurn: NaughtOrCrossValue[],
-                            indexForThatTurn: number,
-                        ): void {
-                            setTicTacToeArray(turnHistoryArrayForThatTurn);
-                        }}
-                        onResetGameClick={function (): void {
-                            setTicTacToeArray(Array(9).fill(null));
-                        }}
-                    />
-                </div>
-            </div>
+            )}
         </div>
     );
 }
