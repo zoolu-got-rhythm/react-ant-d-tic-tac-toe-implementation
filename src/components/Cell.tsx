@@ -3,12 +3,12 @@ import { useHasMounted } from "../hooks/useHasMounted";
 import "./App.css";
 import { memo, useEffect, useRef } from "react";
 import { useRequestAnimationFrameStep } from "../hooks/useRequestionAnimationFrameStep";
-
-export type NaughtOrCrossValue = "x" | "o" | null;
+import { NaughtOrCrossValue } from "../types/ticTacToe";
 
 interface CellProps extends BoardDimensionsProps {
     naughtOrCrossValue: NaughtOrCrossValue;
     cellIndex: number; // 0, 1, 2, (row 1), 3, 4, 5 (row 2), 6, 7, 8 (row 3)
+    highlightCell: boolean;
 }
 
 export const Cell = memo(function ({
@@ -18,7 +18,9 @@ export const Cell = memo(function ({
     onClickTile,
     cellClickable,
     cellIndex,
+    highlightCell = false,
 }: CellProps) {
+    console.log("highlightCell", highlightCell);
     console.log("naught or cross value", naughtOrCrossValue);
     useHasMounted("<Cell />");
 
@@ -52,7 +54,7 @@ export const Cell = memo(function ({
         context.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
         context.clearRect(0, 0, size, size);
         context.strokeStyle = "#000";
-        context.lineWidth = 5;
+        context.lineWidth = 7;
         context.lineCap = "round";
 
         const inset = size * 0.2;
@@ -151,7 +153,7 @@ export const Cell = memo(function ({
                 height: `${boardTileSizeInPx}px`,
             }}
             onClick={handleClickTile}
-            className={`cell ${cellClickable && "cellClickable"}`}
+            className={`cell ${cellClickable && "cellClickable"} ${highlightCell && "cellHighlighted"}`}
         />
     );
 });
