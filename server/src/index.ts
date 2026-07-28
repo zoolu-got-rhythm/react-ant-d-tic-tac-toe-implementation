@@ -75,6 +75,7 @@ io.on(
                 socket.emit("moveRejected", { reason: "notYourTurn" });
                 return;
             }
+
             if (room.board[cellIndex] !== null) {
                 socket.emit("moveRejected", { reason: "cellTaken" });
                 return;
