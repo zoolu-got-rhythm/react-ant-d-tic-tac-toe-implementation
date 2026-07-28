@@ -8,6 +8,7 @@ import { NaughtOrCrossValue } from "../types/ticTacToe";
 interface CellProps extends BoardDimensionsProps {
     naughtOrCrossValue: NaughtOrCrossValue;
     cellIndex: number; // 0, 1, 2, (row 1), 3, 4, 5 (row 2), 6, 7, 8 (row 3)
+    highlightCell: boolean;
 }
 
 export const Cell = memo(function ({
@@ -17,7 +18,9 @@ export const Cell = memo(function ({
     onClickTile,
     cellClickable,
     cellIndex,
+    highlightCell = false,
 }: CellProps) {
+    console.log("highlightCell", highlightCell);
     console.log("naught or cross value", naughtOrCrossValue);
     useHasMounted("<Cell />");
 
@@ -150,7 +153,7 @@ export const Cell = memo(function ({
                 height: `${boardTileSizeInPx}px`,
             }}
             onClick={handleClickTile}
-            className={`cell ${cellClickable && "cellClickable"}`}
+            className={`cell ${cellClickable && "cellClickable"} ${highlightCell && "cellHighlighted"}`}
         />
     );
 });

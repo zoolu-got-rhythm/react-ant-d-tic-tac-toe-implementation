@@ -3,6 +3,50 @@ import { NaughtOrCrossValue } from "../types/ticTacToe";
 import { useHasMounted } from "../hooks/useHasMounted";
 import "./App.css";
 import { HandleClickTile } from "./App";
+import { useEffect, useRef, useState } from "react";
+import { checkFor3InARow, ticTacToeHasWon } from "../utils/ticTacToeHasWon";
+import { useRequestAnimationFrameStep } from "../hooks/useRequestionAnimationFrameStep";
+
+const useGraduallyHighlightWinningCells = (
+    naughtsAndCrossesArrayData: NaughtOrCrossValue[],
+): number[] => {
+    const [indexesOfWinningCells, setIndexesOfWinningCells] = useState<
+        Array<number>
+    >([]);
+
+    const [requestAnimationFrameStep, cancelRequestAnimationFrameStep] =
+        useRequestAnimationFrameStep();
+
+    const timeIntervalBetweenHighlitingWinningTilesInMs = 200;
+
+    useEffect(() => {
+        const symbolOfWinner = ticTacToeHasWon(naughtsAndCrossesArrayData);
+        if (symbolOfWinner) {
+            const indexesOfthe3WinningCells = checkFor3InARow({
+                naughtOrCross: symbolOfWinner,
+                ticTacToeArray: naughtsAndCrossesArrayData,
+            })!;
+
+            let i = 0;
+
+            requestAnimationFrameStep(() => {
+                i++;
+
+                setIndexesOfWinningCells(indexesOfthe3WinningCells.slice(0, i));
+
+                if (i === 3) {
+                    cancelRequestAnimationFrameStep();
+                }
+            }, timeIntervalBetweenHighlitingWinningTilesInMs);
+        }
+
+        return () => {
+            cancelRequestAnimationFrameStep();
+        };
+    }, [naughtsAndCrossesArrayData]);
+
+    return indexesOfWinningCells;
+};
 
 export interface BoardDimensionsProps {
     gutterSizeInPx: number;
@@ -28,6 +72,10 @@ export function Board({
 
     useHasMounted("<Board />");
 
+    const indexesOfWinningCells = useGraduallyHighlightWinningCells(
+        naughtsAndCrossesArrayData,
+    );
+
     return (
         <div
             className="board"
@@ -52,6 +100,11 @@ export function Board({
                                         ];
                                     return (
                                         <Cell
+                                            highlightCell={Boolean(
+                                                indexesOfWinningCells?.includes(
+                                                    indexOfNaughtOrCrossForCurrentCell,
+                                                ),
+                                            )}
                                             cellIndex={
                                                 indexOfNaughtOrCrossForCurrentCell
                                             }

@@ -9,16 +9,16 @@ export function ticTacToeHasWon(
     ticTacToeArray: NaughtOrCrossValue[],
 ): NaughtOrCrossValue {
     return (
-        checkFor3InARow({ naughtOrCross: "o", ticTacToeArray }) ||
-        checkFor3InARow({ naughtOrCross: "x", ticTacToeArray }) ||
+        (checkFor3InARow({ naughtOrCross: "o", ticTacToeArray }) && "o") ||
+        (checkFor3InARow({ naughtOrCross: "x", ticTacToeArray }) && "x") ||
         null
     );
 }
 
-function checkFor3InARow({
+export function checkFor3InARow({
     naughtOrCross,
     ticTacToeArray,
-}: TicTacToeCheckFor3InARowParameters): NaughtOrCrossValue {
+}: TicTacToeCheckFor3InARowParameters): number[] | null {
     const valid3InARowCombinationsByIndex = [
         [0, 1, 2],
         [3, 4, 5],
@@ -37,7 +37,7 @@ function checkFor3InARow({
             ticTacToeArray[validTicTacToeCombination[1]] === naughtOrCross &&
             ticTacToeArray[validTicTacToeCombination[2]] === naughtOrCross
         ) {
-            return naughtOrCross;
+            return validTicTacToeCombination;
         }
     }
 
