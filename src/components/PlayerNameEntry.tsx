@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Input, Typography } from "antd";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 interface PlayerNameEntryProps {
     onJoin: (playerName: string) => void;
@@ -24,19 +24,43 @@ export function PlayerNameEntry({
         onJoin(trimmedPlayerName);
     };
 
+    const maxNameLength = 10;
+
     return (
         <div id="playerNameEntryContainer">
             <Title level={4}>enter your name to find an opponent</Title>
-            <Input
-                id="playerNameInput"
-                placeholder="your name"
-                value={playerName}
-                disabled={disabled}
-                onChange={(event) => setPlayerName(event.target.value)}
-                onPressEnter={handleJoinClick}
-                style={{ maxWidth: "240px", marginRight: "8px" }}
-            />
+
+            <div>
+                <div
+                    style={{
+                        display: "inline-flex",
+                        flexDirection: "column",
+                        alignItems: "start",
+                    }}
+                >
+                    <Input
+                        id="playerNameInput"
+                        placeholder="your name"
+                        value={playerName}
+                        disabled={disabled}
+                        onChange={(event) =>
+                            event.target.value.length <= maxNameLength &&
+                            setPlayerName(event.target.value)
+                        }
+                        onPressEnter={handleJoinClick}
+                        style={{ maxWidth: "240px", marginRight: "8px" }}
+                    />
+                    <Text
+                        type="secondary"
+                        style={{ marginLeft: "3px", marginTop: "-3px" }}
+                    >
+                        {`${playerName.length}/${maxNameLength}`}
+                    </Text>
+                </div>
+            </div>
+
             <Button
+                style={{ marginTop: "10px" }}
                 id="joinGameButton"
                 type="primary"
                 disabled={disabled || !playerName.trim()}

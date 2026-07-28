@@ -51,7 +51,7 @@ export const Cell = memo(function ({
         context.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
         context.clearRect(0, 0, size, size);
         context.strokeStyle = "#000";
-        context.lineWidth = 5;
+        context.lineWidth = 7;
         context.lineCap = "round";
 
         const inset = size * 0.2;

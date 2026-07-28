@@ -15,8 +15,7 @@ export type HandleClickTile = (indexOfTileToUpdate: number) => void;
 
 const { Title, Text } = Typography;
 
-const serverUrl =
-    process.env.REACT_APP_SERVER_URL ?? "http://localhost:4000";
+const serverUrl = process.env.REACT_APP_SERVER_URL ?? "http://localhost:4000";
 
 type GamePhase = "enteringName" | "waiting" | "playing" | "over";
 
@@ -35,22 +34,21 @@ function App() {
         string | null
     >(null);
 
-    const [ticTacToeArray, setTicTacToeArray] = useState<
-        NaughtOrCrossValue[]
-    >(new Array(9).fill(null));
-    const [ticTacToeArrayTurnHistory, setTicTacToeArrayTurnHistory] =
-        useState<NaughtOrCrossValue[][]>([]);
-    const [currentTurn, setCurrentTurn] = useState<"x" | "o">("x");
-    const [winnerOfGame, setWinnerOfGame] = useState<NaughtOrCrossValue>(
-        null,
+    const [ticTacToeArray, setTicTacToeArray] = useState<NaughtOrCrossValue[]>(
+        new Array(9).fill(null),
     );
+    const [ticTacToeArrayTurnHistory, setTicTacToeArrayTurnHistory] = useState<
+        NaughtOrCrossValue[][]
+    >([]);
+    const [currentTurn, setCurrentTurn] = useState<"x" | "o">("x");
+    const [winnerOfGame, setWinnerOfGame] = useState<NaughtOrCrossValue>(null);
     const [isDraw, setIsDraw] = useState(false);
 
     const [previewedBoard, setPreviewedBoard] = useState<
         NaughtOrCrossValue[] | null
     >(null);
 
-    const ticTacToeBoardSize = 50;
+    const ticTacToeBoardSize = 70;
 
     useEffect(() => {
         const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
@@ -79,15 +77,12 @@ function App() {
             },
         );
 
-        socket.on(
-            "stateUpdate",
-            ({ board, boardHistory, turn }) => {
-                setTicTacToeArray(board);
-                setTicTacToeArrayTurnHistory(boardHistory);
-                setCurrentTurn(turn);
-                setPreviewedBoard(null);
-            },
-        );
+        socket.on("stateUpdate", ({ board, boardHistory, turn }) => {
+            setTicTacToeArray(board);
+            setTicTacToeArrayTurnHistory(boardHistory);
+            setCurrentTurn(turn);
+            setPreviewedBoard(null);
+        });
 
         socket.on("gameOver", ({ winner, isDraw }) => {
             setWinnerOfGame(winner);
@@ -132,12 +127,30 @@ function App() {
 
     const boardToDisplay = previewedBoard ?? ticTacToeArray;
 
+    const nameOfWinnerOfGame =
+        winnerOfGame === mySymbol ? myName : opponentName;
+
     return (
         <div className="App">
             <Title> Tic-Tac-Toe </Title>
-            <h4 id="reactFundamentals">
-                React Fundamentals & Advanced Concepts
-            </h4>
+            <Title
+                level={4}
+                style={{
+                    margin: "0px",
+                    marginTop: "-15px",
+                    padding: "0px",
+                    color: "#888",
+                }}
+            >
+                {" "}
+                online 🔌{" "}
+            </Title>
+            {opponentName && (
+                <h4
+                    id="reactFundamentals"
+                    style={{ marginTop: "15px" }}
+                >{`${myName} vs ${opponentName}`}</h4>
+            )}
 
             {gamePhase === "enteringName" || gamePhase === "waiting" ? (
                 <PlayerNameEntry
@@ -151,64 +164,38 @@ function App() {
                 />
             ) : (
                 <div id="ticTacToeGameContainer">
-                    <div id="leftColumn">
-                        <Text id="opponentInfo">
-                            {`you are ${mySymbol?.toUpperCase()} — playing against ${opponentName}`}
+                    {opponentLeftMessage ? (
+                        <Text id="opponentLeftMessage" type="danger">
+                            {opponentLeftMessage}
                         </Text>
-                        {opponentLeftMessage ? (
-                            <Text id="opponentLeftMessage" type="danger">
-                                {opponentLeftMessage}
-                            </Text>
-                        ) : !winnerOfGame && !isDraw ? (
-                            <Text id="nextPlayer" strong>
-                                {" "}
-                                {`next player is ${
-                                    isMyTurn ? "you" : opponentName
-                                }`}
-                            </Text>
-                        ) : !winnerOfGame && isDraw ? (
-                            <Text strong type="warning">
-                                draw
-                            </Text>
-                        ) : (
-                            <Text
-                                id="winnerOfGame"
-                                strong
-                                type="success"
-                            >{`winner of game is ${
-                                winnerOfGame === mySymbol
-                                    ? myName
-                                    : opponentName
-                            }`}</Text>
-                        )}
-                        <Board
-                            cellClickable={cellClickable}
-                            gutterSizeInPx={5}
-                            boardTileSizeInPx={ticTacToeBoardSize}
-                            onClickTile={handleClickTile}
-                            naughtsAndCrossesArrayData={boardToDisplay}
-                        />
-                    </div>
-                    <div>
-                        <TurnHistoryList
-                            liveBoardData={ticTacToeArray}
-                            ticTacToeArrayTurnHistory={
-                                ticTacToeArrayTurnHistory
+                    ) : !winnerOfGame && !isDraw ? (
+                        <Text id={isMyTurn ? "nextPlayer" : ""} strong>
+                            {isMyTurn
+                                ? "it's your turn"
+                                : `it's ${opponentName}'s turn`}
+                        </Text>
+                    ) : !winnerOfGame && isDraw ? (
+                        <Text strong type="warning">
+                            draw
+                        </Text>
+                    ) : (
+                        <Text
+                            id="winnerOfGame"
+                            strong
+                            type={
+                                nameOfWinnerOfGame === myName
+                                    ? "success"
+                                    : "danger"
                             }
-                            isPreviewing={previewedBoard !== null}
-                            onPreviewTurn={function (
-                                turnHistoryArrayForThatTurn: NaughtOrCrossValue[],
-                            ): void {
-                                setPreviewedBoard(turnHistoryArrayForThatTurn);
-                            }}
-                            onPreviewStart={function (): void {
-                                setPreviewedBoard(Array(9).fill(null));
-                            }}
-                            onReturnToLiveGame={function (): void {
-                                setPreviewedBoard(null);
-                            }}
-                        />
-                    </div>
+                        >{`winner of game is ${nameOfWinnerOfGame}`}</Text>
+                    )}
+                    <Board
+                        cellClickable={cellClickable}
+                        gutterSizeInPx={5}
+                        boardTileSizeInPx={ticTacToeBoardSize}
+                        onClickTile={handleClickTile}
+                        naughtsAndCrossesArrayData={boardToDisplay}
+                    />
                 </div>
             )}
         </div>
