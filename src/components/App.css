@@ -19,6 +19,10 @@
     justify-content: center;
 }
 
+.cellHighlighted {
+    background: #ccc;
+}
+
 .cellClickable:hover {
     background: #ccc;
     cursor: pointer;

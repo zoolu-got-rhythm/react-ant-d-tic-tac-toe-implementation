@@ -99,6 +99,7 @@ function App() {
                         >{`winner of game is ${winnerOfGame}`}</Text>
                     )}
                     <Board
+                        ticTacToeArrayTurnHistory={ticTacToeArrayTurnHistory}
                         cellClickable={!winnerOfGame}
                         gutterSizeInPx={5}
                         boardTileSizeInPx={ticTacToeBoardSize}

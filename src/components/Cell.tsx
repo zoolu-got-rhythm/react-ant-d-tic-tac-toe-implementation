@@ -3,7 +3,8 @@ import { useHasMounted } from "../hooks/useHasMounted";
 import "./App.css";
 import { memo, useEffect, useRef } from "react";
 import { useRequestAnimationFrameStep } from "../hooks/useRequestionAnimationFrameStep";
-import { NaughtOrCrossValue } from "../types/ticTacToe";
+
+export type NaughtOrCrossValue = "o" | "x" | null;
 
 interface CellProps extends BoardDimensionsProps {
     naughtOrCrossValue: NaughtOrCrossValue;
