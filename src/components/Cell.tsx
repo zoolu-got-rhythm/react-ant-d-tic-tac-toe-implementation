@@ -140,7 +140,7 @@ export const Cell = memo(function ({
     }, [boardTileSizeInPx, naughtOrCrossValue]);
 
     const handleClickTile = () => {
-        onClickTile(cellIndex);
+        onClickTile && onClickTile(cellIndex);
     };
 
     return (

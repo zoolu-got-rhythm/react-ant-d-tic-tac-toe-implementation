@@ -21,10 +21,15 @@ const useGraduallyHighlightWinningCells = (
     const timeIntervalBetweenHighlitingWinningTilesInMs = 200;
 
     useEffect(() => {
+        const nOfPlacedSymbols = countPlacedSymbols(naughtsAndCrossesArrayData);
+        if (nOfPlacedSymbols === 0) {
+            setIndexesOfWinningCells([]);
+            return;
+        }
+
         if (
             ticTacToeArrayTurnHistory &&
-            ticTacToeArrayTurnHistory.length >
-                countPlacedSymbols(naughtsAndCrossesArrayData)
+            ticTacToeArrayTurnHistory.length > nOfPlacedSymbols
         ) {
             setIndexesOfWinningCells([]);
         } else {
@@ -63,7 +68,7 @@ export interface BoardDimensionsProps {
     gutterSizeInPx: number;
     boardTileSizeInPx: number;
     cellClickable: boolean;
-    onClickTile: HandleClickTile;
+    onClickTile?: HandleClickTile;
 }
 
 export interface BoardProps extends BoardDimensionsProps {

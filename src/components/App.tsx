@@ -7,6 +7,7 @@ import { TurnHistoryList } from "./TurnHistoryList";
 import { Typography } from "antd";
 import { isBoardFull } from "../utils/isBoardFull";
 import { countPlacedSymbols } from "../utils/countPlacedSymbols";
+import RandomPlayingTicTacToe from "./RandomPlayingTicTacToe";
 
 export type HandleClickTile = (indexOfTileToUpdate: number) => void;
 
@@ -81,6 +82,7 @@ function App() {
             </h4>
 
             <div id="ticTacToeGameContainer">
+                {/* <RandomPlayingTicTacToe /> */}
                 <div id="leftColumn">
                     {!winnerOfGame && !boardIsFull ? (
                         <Text id="nextPlayer" strong>
