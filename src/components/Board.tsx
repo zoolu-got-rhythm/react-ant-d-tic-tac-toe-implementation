@@ -30,7 +30,7 @@ const useGraduallyHighlightWinningCells = (
         } else {
             const symbolOfWinner = ticTacToeHasWon(naughtsAndCrossesArrayData);
             if (symbolOfWinner) {
-                const indexesOfthe3WinningCells = checkFor3InARow({
+                const indexesOfthe3WinningCells: number[] = checkFor3InARow({
                     naughtOrCross: symbolOfWinner,
                     ticTacToeArray: naughtsAndCrossesArrayData,
                 })!;
