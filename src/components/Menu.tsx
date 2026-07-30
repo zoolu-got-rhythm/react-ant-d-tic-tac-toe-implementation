@@ -1,23 +1,21 @@
 import Title from "antd/es/typography/Title";
 import RandomPlayingTicTacToe from "./RandomPlayingTicTacToe";
 import { Button } from "antd";
+import { useNavigate } from "react-router";
+import { TicTacToeTitleText } from "./TicTacToeTitleText";
 
 export function Menu() {
+    const navigate = useNavigate();
+
     return (
         <div className="App">
-            <Title> Tic-Tac-Toe </Title>
-            <Title
-                level={4}
-                style={{
-                    margin: "0px",
-                    marginTop: "-15px",
-                    padding: "0px",
-                    color: "#888",
+            <TicTacToeTitleText subTitle="online 🔌" />
+            <Button
+                style={{ width: "200px", marginTop: "25px" }}
+                onClick={() => {
+                    navigate("/practise");
                 }}
             >
-                online 🔌
-            </Title>
-            <Button style={{ width: "200px", marginTop: "25px" }} onClick={() => {}}>
                 practise
             </Button>
             <Button

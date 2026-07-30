@@ -9,6 +9,7 @@ import { isBoardFull } from "../utils/isBoardFull";
 import { countPlacedSymbols } from "../utils/countPlacedSymbols";
 import RandomPlayingTicTacToe from "./RandomPlayingTicTacToe";
 import { Menu } from "./Menu";
+import { TicTacToeTitleText } from "./TicTacToeTitleText";
 
 export type HandleClickTile = (indexOfTileToUpdate: number) => void;
 
@@ -77,19 +78,11 @@ function PractiseTimeTravel() {
 
     return (
         <div className="App">
-
-            <Menu />
-            {/* <Title> Tic-Tac-Toe </Title>
-            <h4 id="reactFundamentals">
-                React Fundamentals & Advanced Concepts
-            </h4>
-
-            <div id="ticTacToeGameContainer"> */}
-                {/* <RandomPlayingTicTacToe /> */}
-                {/* <div id="leftColumn">
+            <TicTacToeTitleText subTitle="practise 🧠" />
+            <div id="ticTacToeGameContainer">
+                <div id="leftColumn">
                     {!winnerOfGame && !boardIsFull ? (
                         <Text id="nextPlayer" strong>
-                            {" "}
                             {`next player is ${whosTurnIsIt.toUpperCase()}`}
                         </Text>
                     ) : !winnerOfGame && boardIsFull ? (
@@ -126,8 +119,8 @@ function PractiseTimeTravel() {
                             setTicTacToeArray(Array(9).fill(null));
                         }}
                     />
-                </div> */}
-            {/* </div> */}
+                </div>
+            </div>
         </div>
     );
 }
