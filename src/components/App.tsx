@@ -8,6 +8,7 @@ import { Typography } from "antd";
 import { isBoardFull } from "../utils/isBoardFull";
 import { countPlacedSymbols } from "../utils/countPlacedSymbols";
 import RandomPlayingTicTacToe from "./RandomPlayingTicTacToe";
+import { Menu } from "./Menu";
 
 export type HandleClickTile = (indexOfTileToUpdate: number) => void;
 
@@ -76,14 +77,16 @@ function App() {
 
     return (
         <div className="App">
-            <Title> Tic-Tac-Toe </Title>
+
+            <Menu />
+            {/* <Title> Tic-Tac-Toe </Title>
             <h4 id="reactFundamentals">
                 React Fundamentals & Advanced Concepts
             </h4>
 
-            <div id="ticTacToeGameContainer">
+            <div id="ticTacToeGameContainer"> */}
                 {/* <RandomPlayingTicTacToe /> */}
-                <div id="leftColumn">
+                {/* <div id="leftColumn">
                     {!winnerOfGame && !boardIsFull ? (
                         <Text id="nextPlayer" strong>
                             {" "}
@@ -123,8 +126,8 @@ function App() {
                             setTicTacToeArray(Array(9).fill(null));
                         }}
                     />
-                </div>
-            </div>
+                </div> */}
+            {/* </div> */}
         </div>
     );
 }
