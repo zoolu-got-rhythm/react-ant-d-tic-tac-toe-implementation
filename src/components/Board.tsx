@@ -1,7 +1,7 @@
 import { Cell, NaughtOrCrossValue } from "./Cell";
 import { useHasMounted } from "../hooks/useHasMounted";
 import "./App.css";
-import { HandleClickTile } from "./App";
+import { HandleClickTile } from "./PractiseTimeTravel";
 import { useEffect, useRef, useState } from "react";
 import { checkFor3InARow, ticTacToeHasWon } from "../utils/ticTacToeHasWon";
 import { useRequestAnimationFrameStep } from "../hooks/useRequestionAnimationFrameStep";

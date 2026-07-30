@@ -6,8 +6,19 @@ export function Menu() {
     return (
         <div className="App">
             <Title> Tic-Tac-Toe </Title>
-            <Button style={{ width: "200px" }} onClick={() => {}}>
-                free play
+            <Title
+                level={4}
+                style={{
+                    margin: "0px",
+                    marginTop: "-15px",
+                    padding: "0px",
+                    color: "#888",
+                }}
+            >
+                online 🔌
+            </Title>
+            <Button style={{ width: "200px", marginTop: "25px" }} onClick={() => {}}>
+                practise
             </Button>
             <Button
                 style={{ width: "200px", marginTop: "10px" }}

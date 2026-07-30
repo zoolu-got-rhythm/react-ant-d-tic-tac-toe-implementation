@@ -14,7 +14,7 @@ export type HandleClickTile = (indexOfTileToUpdate: number) => void;
 
 const { Title, Text } = Typography;
 
-function App() {
+function PractiseTimeTravel() {
     const [ticTacToeArray, setTicTacToeArray] = useState<NaughtOrCrossValue[]>(
         new Array(9).fill(null),
     );
@@ -132,4 +132,4 @@ function App() {
     );
 }
 
-export default App;
+export default PractiseTimeTravel;
