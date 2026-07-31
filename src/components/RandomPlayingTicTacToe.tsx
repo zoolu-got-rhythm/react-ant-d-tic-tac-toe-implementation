@@ -124,7 +124,7 @@ export function RandomPlayingTicTacToe() {
                     >{`winner of game is ${winnerOfGame}`}</Text>
                 )}
                 <Board
-                    cellClickable={!winnerOfGame}
+                    cellClickable={false}
                     gutterSizeInPx={5}
                     boardTileSizeInPx={ticTacToeBoardSize}
                     naughtsAndCrossesArrayData={ticTacToeArray}
