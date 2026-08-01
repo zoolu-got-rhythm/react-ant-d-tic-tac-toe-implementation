@@ -9,7 +9,7 @@ import {
 } from "../types/socketEvents";
 import { TurnHistoryList } from "./TurnHistoryList";
 import { PlayerNameEntry } from "./PlayerNameEntry";
-import { Typography } from "antd";
+import { Button, Typography } from "antd";
 
 export type HandleClickTile = (indexOfTileToUpdate: number) => void;
 
@@ -34,6 +34,11 @@ function App() {
         string | null
     >(null);
 
+    const [
+        sentRequestToOpponentForRematch,
+        setSentRequestToOpponentForRematch,
+    ] = useState<boolean>(false);
+
     const [ticTacToeArray, setTicTacToeArray] = useState<NaughtOrCrossValue[]>(
         new Array(9).fill(null),
     );
@@ -50,6 +55,9 @@ function App() {
 
     const ticTacToeBoardSize = 70;
 
+    const [requestRecievedToPlayAgain, setRequestRecievedToPlayAgain] =
+        useState<boolean>(false);
+
     useEffect(() => {
         const socket: Socket<ServerToClientEvents, ClientToServerEvents> =
             io(serverUrl);
@@ -62,6 +70,10 @@ function App() {
         socket.on(
             "gameStart",
             ({ roomId, yourSymbol, yourName, opponentName, board }) => {
+                console.log("game start", roomId, board);
+
+                setSentRequestToOpponentForRematch(false);
+                setRequestRecievedToPlayAgain(false);
                 setRoomId(roomId);
                 setMySymbol(yourSymbol);
                 setMyName(yourName);
@@ -76,6 +88,10 @@ function App() {
                 setGamePhase("playing");
             },
         );
+
+        socket.on("requestOpponentToPlayAgain", () => {
+            setRequestRecievedToPlayAgain(true);
+        });
 
         socket.on("stateUpdate", ({ board, boardHistory, turn }) => {
             setTicTacToeArray(board);
@@ -197,6 +213,38 @@ function App() {
                         naughtsAndCrossesArrayData={boardToDisplay}
                     />
                 </div>
+            )}
+
+            {sentRequestToOpponentForRematch && gamePhase === "over" && (
+                <Text type="secondary" style={{ marginTop: "15px" }}>
+                    request for rematch sent...
+                </Text>
+            )}
+
+            {gamePhase === "over" &&
+                !sentRequestToOpponentForRematch &&
+                !requestRecievedToPlayAgain && (
+                    <Button
+                        style={{ marginTop: "15px" }}
+                        onClick={() => {
+                            setSentRequestToOpponentForRematch(true);
+                            socketRef.current?.emit("requestPlayAgain");
+                        }}
+                    >
+                        challenge opponent to rematch
+                    </Button>
+                )}
+
+            {gamePhase === "over" && requestRecievedToPlayAgain && (
+                <Button
+                    onClick={() => {
+                        socketRef.current?.emit("acceptPlayAgain");
+                    }}
+                    type="primary"
+                    style={{ marginTop: "15px" }}
+                >
+                    accept rematch
+                </Button>
             )}
         </div>
     );

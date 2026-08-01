@@ -17,12 +17,9 @@ app.use(cors({ origin: clientOrigin }));
 app.get("/health", (_req, res) => res.json({ ok: true }));
 
 const httpServer = createServer(app);
-const io = new Server<ClientToServerEvents, ServerToClientEvents>(
-    httpServer,
-    {
-        cors: { origin: clientOrigin },
-    },
-);
+const io = new Server<ClientToServerEvents, ServerToClientEvents>(httpServer, {
+    cors: { origin: clientOrigin },
+});
 
 const roomStore = new RoomStore();
 
@@ -39,9 +36,7 @@ io.on(
             }
 
             socket.join(room.roomId);
-            io.sockets.sockets
-                .get(room.players.x.socketId)
-                ?.join(room.roomId);
+            io.sockets.sockets.get(room.players.x.socketId)?.join(room.roomId);
 
             io.to(room.players.x.socketId).emit("gameStart", {
                 roomId: room.roomId,
@@ -125,6 +120,48 @@ io.on(
             }
 
             roomStore.removeRoom(room.roomId);
+        });
+
+        socket.on("requestPlayAgain", () => {
+            const room = roomStore.getRoomBySocketId(socket.id);
+            if (!room) {
+                return;
+            }
+
+            const isX = room.players.x.socketId === socket.id;
+            const otherPlayersSocketId = isX
+                ? room.players.o?.socketId
+                : room.players.x.socketId;
+
+            if (otherPlayersSocketId) {
+                io.to(otherPlayersSocketId).emit("requestOpponentToPlayAgain");
+            }
+        });
+
+        socket.on("acceptPlayAgain", () => {
+            const room = roomStore.getRoomBySocketId(socket.id);
+            if (!room) {
+                return;
+            }
+
+            roomStore.resetGameForGivenRoom(room.roomId)
+
+
+            io.to(room.players.x.socketId).emit("gameStart", {
+                roomId: room.roomId,
+                yourSymbol: "x",
+                yourName: room.players.x.playerName,
+                opponentName: room.players.o!.playerName,
+                board: room.board,
+            });
+
+            io.to(room.players.o!.socketId).emit("gameStart", {
+                roomId: room.roomId,
+                yourSymbol: "o",
+                yourName: room.players.o!.playerName,
+                opponentName: room.players.x.playerName,
+                board: room.board,
+            });
         });
     },
 );

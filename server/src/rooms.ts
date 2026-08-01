@@ -25,6 +25,16 @@ export class RoomStore {
         return this.rooms.get(roomId);
     }
 
+    resetGameForGivenRoom(roomId: string) {
+        const room = this.rooms.get(roomId);
+        if (room) {
+            room.board = createEmptyBoard();
+            room.boardHistory = [];
+            room.isDraw = false;
+            room.winner = null;
+        }
+    }
+
     getRoomBySocketId(socketId: string): Room | undefined {
         const roomId = this.roomIdBySocketId.get(socketId);
         return roomId ? this.rooms.get(roomId) : undefined;

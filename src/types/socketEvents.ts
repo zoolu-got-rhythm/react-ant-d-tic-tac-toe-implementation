@@ -5,6 +5,8 @@ export type MoveRejectedReason = "notYourTurn" | "cellTaken" | "gameOver";
 export interface ClientToServerEvents {
     join: (payload: { playerName: string }) => void;
     makeMove: (payload: { roomId: string; cellIndex: number }) => void;
+    requestPlayAgain: () => void;
+    acceptPlayAgain: () => void;
 }
 
 export interface ServerToClientEvents {
@@ -29,4 +31,5 @@ export interface ServerToClientEvents {
     }) => void;
     opponentLeft: (payload: { opponentName: string }) => void;
     moveRejected: (payload: { reason: MoveRejectedReason }) => void;
+    requestOpponentToPlayAgain: () => void;
 }
