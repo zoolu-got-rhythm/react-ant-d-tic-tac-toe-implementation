@@ -1,14 +1,16 @@
 import { Cell } from "./Cell";
-import { NaughtOrCrossValue } from "../types/ticTacToe";
 import { useHasMounted } from "../hooks/useHasMounted";
 import "./App.css";
-import { HandleClickTile } from "./App";
 import { useEffect, useRef, useState } from "react";
 import { checkFor3InARow, ticTacToeHasWon } from "../utils/ticTacToeHasWon";
 import { useRequestAnimationFrameStep } from "../hooks/useRequestionAnimationFrameStep";
+import { countPlacedSymbols } from "../utils/countPlacedSymbols";
+import { NaughtOrCrossValue } from "../types/ticTacToe";
+import { HandleClickTile } from "./App";
 
 const useGraduallyHighlightWinningCells = (
     naughtsAndCrossesArrayData: NaughtOrCrossValue[],
+    ticTacToeArrayTurnHistory?: NaughtOrCrossValue[][],
 ): number[] => {
     const [indexesOfWinningCells, setIndexesOfWinningCells] = useState<
         Array<number>
@@ -20,30 +22,45 @@ const useGraduallyHighlightWinningCells = (
     const timeIntervalBetweenHighlitingWinningTilesInMs = 200;
 
     useEffect(() => {
-        const symbolOfWinner = ticTacToeHasWon(naughtsAndCrossesArrayData);
-        if (symbolOfWinner) {
-            const indexesOfthe3WinningCells = checkFor3InARow({
-                naughtOrCross: symbolOfWinner,
-                ticTacToeArray: naughtsAndCrossesArrayData,
-            })!;
+        const nOfPlacedSymbols = countPlacedSymbols(naughtsAndCrossesArrayData);
+        if (nOfPlacedSymbols === 0) {
+            setIndexesOfWinningCells([]);
+            return;
+        }
 
-            let i = 0;
+        if (
+            ticTacToeArrayTurnHistory &&
+            ticTacToeArrayTurnHistory.length > nOfPlacedSymbols
+        ) {
+            setIndexesOfWinningCells([]);
+        } else {
+            const symbolOfWinner = ticTacToeHasWon(naughtsAndCrossesArrayData);
+            if (symbolOfWinner) {
+                const indexesOfthe3WinningCells: number[] = checkFor3InARow({
+                    naughtOrCross: symbolOfWinner,
+                    ticTacToeArray: naughtsAndCrossesArrayData,
+                })!;
 
-            requestAnimationFrameStep(() => {
-                i++;
+                let i = 0;
 
-                setIndexesOfWinningCells(indexesOfthe3WinningCells.slice(0, i));
+                requestAnimationFrameStep(() => {
+                    i++;
 
-                if (i === 3) {
-                    cancelRequestAnimationFrameStep();
-                }
-            }, timeIntervalBetweenHighlitingWinningTilesInMs);
+                    setIndexesOfWinningCells(
+                        indexesOfthe3WinningCells.slice(0, i),
+                    );
+
+                    if (i === 3) {
+                        cancelRequestAnimationFrameStep();
+                    }
+                }, timeIntervalBetweenHighlitingWinningTilesInMs);
+            }
         }
 
         return () => {
             cancelRequestAnimationFrameStep();
         };
-    }, [naughtsAndCrossesArrayData]);
+    }, [naughtsAndCrossesArrayData, ticTacToeArrayTurnHistory]);
 
     return indexesOfWinningCells;
 };
@@ -52,11 +69,12 @@ export interface BoardDimensionsProps {
     gutterSizeInPx: number;
     boardTileSizeInPx: number;
     cellClickable: boolean;
-    onClickTile: HandleClickTile;
+    onClickTile?: HandleClickTile;
 }
 
 export interface BoardProps extends BoardDimensionsProps {
     naughtsAndCrossesArrayData: NaughtOrCrossValue[];
+    ticTacToeArrayTurnHistory?: NaughtOrCrossValue[][];
 }
 
 export function Board({
@@ -65,6 +83,7 @@ export function Board({
     onClickTile,
     naughtsAndCrossesArrayData,
     cellClickable,
+    ticTacToeArrayTurnHistory,
 }: BoardProps) {
     const boardRows = 3; // this assumption on another file is ok, but in terms of clean coding it's breaking a rule
     const boardColumns = 3; // this assumption on another file is ok, but in terms of clean coding it's breaking a rule
@@ -72,8 +91,9 @@ export function Board({
 
     useHasMounted("<Board />");
 
-    const indexesOfWinningCells = useGraduallyHighlightWinningCells(
+    const indexesOfWinningCells: number[] = useGraduallyHighlightWinningCells(
         naughtsAndCrossesArrayData,
+        ticTacToeArrayTurnHistory,
     );
 
     return (
