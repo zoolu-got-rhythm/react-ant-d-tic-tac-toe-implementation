@@ -40,6 +40,10 @@
     cursor: pointer;
 }
 
+.cellClickable:active {
+    background: #ccc;
+}
+
 .board {
     border: 2px solid #333;
     display: inline-block;
@@ -51,6 +55,11 @@
 
 #ticTacToeGameContainer {
     display: flex;
+}
+
+#ticTacToeOnlineGameContainer {
+    display: flex;
+    flex-direction: column;
 }
 
 #reactFundamentals {
@@ -83,6 +92,7 @@
 
 #nextPlayer {
     animation: flashOpacityForWhoIsNextTurn 0.8s ease-in-out infinite;
+    color: #6f42f5;
 }
 
 #winnerOfGame {

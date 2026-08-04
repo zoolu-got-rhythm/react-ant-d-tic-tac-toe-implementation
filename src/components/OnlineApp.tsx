@@ -168,7 +168,7 @@ function OnlineApp() {
                     }
                 />
             ) : (
-                <div id="ticTacToeGameContainer">
+                <div id="ticTacToeOnlineGameContainer">
                     {opponentLeftMessage ? (
                         <Text id="opponentLeftMessage" type="danger">
                             {opponentLeftMessage}
