@@ -6,6 +6,7 @@ interface TicTacToeTitleTextProps {
 }
 
 export function TicTacToeTitleText({ subTitle }: TicTacToeTitleTextProps) {
+    //TODO: add a market pen at end of tic-tac-toe relative to the text so it at end of "e" on "toe"
     return (
         <>
             <div
@@ -18,12 +19,12 @@ export function TicTacToeTitleText({ subTitle }: TicTacToeTitleTextProps) {
                 <BackButton
                     style={{
                         marginRight: "15px",
-                        marginTop: "11px",
+                        // marginTop: "11px",
                         position: "absolute",
                         left: "-43px",
                     }}
                 />
-                <Title> Tic-Tac-Toe </Title>
+                <h1 className="dynapuff-bold"> Tic-Tac-Toe </h1>
             </div>
 
             <Title

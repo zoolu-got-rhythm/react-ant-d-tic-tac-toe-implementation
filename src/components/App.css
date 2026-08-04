@@ -5,6 +5,18 @@
     flex-direction: column;
 }
 
+.dynapuff-bold {
+    font-family: "DynaPuff", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-variation-settings: "wdth" 81.9;
+    font-size: 3em;
+    margin: 0;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
 .row {
     display: flex;
     margin-top: 5px;
