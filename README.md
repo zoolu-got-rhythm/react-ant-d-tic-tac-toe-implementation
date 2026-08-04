@@ -13,7 +13,7 @@ concepts:
 - usage of memo and useCallback
 - usage of useRef and "low level" html canvas drawing/abstraction
 
-## React UI Render Tree
+## React UI Render Tree for practise mode
 
 ```mermaid
 graph TD
@@ -43,6 +43,46 @@ graph TD
     Tiles --> Tile8[Tile]
 
     Tiles --> Tile9[Tile]
+```
+
+## architectural diagram for web socket online play with react 
+
+```mermaid
+
+flowchart TB
+
+    User([User])
+
+    subgraph Frontend["React Frontend (TypeScript)"]
+        Components["React Components"]
+        Router["React Router"]
+        Store["React State Management"]
+        WSClient["Socket.IO Client"]
+        Hooks["Hooks"]
+
+        Components --> Hooks
+        Router --> Components
+        Hooks --> WSClient
+        WSClient --> Store
+        Store --> Components
+    end
+
+    subgraph Backend["Node.js Backend (TypeScript)"]
+
+        subgraph Express["Express Server"]
+            subgraph Socket["Socket.IO Server"]
+            end
+        end
+
+        Game["Tic Tac Toe Game Logic"]
+       
+
+        Socket <-->|Events| Game
+    end
+
+    User --> Components
+
+    WSClient <-->|WebSocket| Socket
 ```
 
 ## running app
