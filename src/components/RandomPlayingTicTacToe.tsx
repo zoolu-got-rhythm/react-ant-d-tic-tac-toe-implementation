@@ -121,7 +121,7 @@ export function RandomPlayingTicTacToe() {
                         id="winnerOfGame"
                         strong
                         type="success"
-                    >{`winner of game is ${winnerOfGame}`}</Text>
+                    >{`winner of game is ${winnerOfGame?.toUpperCase()}`}</Text>
                 )}
                 <Board
                     cellClickable={false}

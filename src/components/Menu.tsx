@@ -20,7 +20,9 @@ export function Menu() {
             </Button>
             <Button
                 style={{ width: "200px", marginTop: "10px" }}
-                onClick={() => {}}
+                onClick={() => {
+                    navigate("/online-play");
+                }}
             >
                 online play
             </Button>

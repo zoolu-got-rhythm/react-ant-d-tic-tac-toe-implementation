@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router";
 import { Menu } from "./components/Menu";
 import PractiseTimeTravel from "./components/PractiseTimeTravel";
+import OnlineApp from "./components/OnlineApp";
 
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement,
@@ -15,6 +16,7 @@ root.render(
         <Routes>
             <Route path="/" element={<Menu />} />
             <Route path="/practise" element={<PractiseTimeTravel />} />
+            <Route path="/online-play" element={<OnlineApp />} />
         </Routes>
     </BrowserRouter>,
 );

@@ -10,6 +10,7 @@ import { countPlacedSymbols } from "../utils/countPlacedSymbols";
 import RandomPlayingTicTacToe from "./RandomPlayingTicTacToe";
 import { Menu } from "./Menu";
 import { TicTacToeTitleText } from "./TicTacToeTitleText";
+import { BackButton } from "./BackButton";
 
 export type HandleClickTile = (indexOfTileToUpdate: number) => void;
 
