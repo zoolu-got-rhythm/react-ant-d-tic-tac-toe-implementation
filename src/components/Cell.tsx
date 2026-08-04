@@ -42,6 +42,8 @@ export const Cell = memo(function ({
 
         const devicePixelRatio = window.devicePixelRatio || 1;
         const size = boardTileSizeInPx;
+
+        const drawingLineWidth = boardTileSizeInPx * 0.2;
         canvas.width = size * devicePixelRatio;
         canvas.height = size * devicePixelRatio;
 
@@ -55,7 +57,7 @@ export const Cell = memo(function ({
         context.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
         context.clearRect(0, 0, size, size);
         context.strokeStyle = "#000";
-        context.lineWidth = 7;
+        context.lineWidth = drawingLineWidth;
         context.lineCap = "round";
 
         const inset = size * 0.2;
