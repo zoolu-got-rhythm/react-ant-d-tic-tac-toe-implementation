@@ -1,4 +1,4 @@
-import { Cell, NaughtOrCrossValue } from "./Cell";
+import { Cell } from "./Cell";
 import { useHasMounted } from "../hooks/useHasMounted";
 import "./App.css";
 import { HandleClickTile } from "./PractiseTimeTravel";
@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { checkFor3InARow, ticTacToeHasWon } from "../utils/ticTacToeHasWon";
 import { useRequestAnimationFrameStep } from "../hooks/useRequestionAnimationFrameStep";
 import { countPlacedSymbols } from "../utils/countPlacedSymbols";
+import { NaughtOrCrossValue } from "../types/ticTacToe";
 
 const useGraduallyHighlightWinningCells = (
     naughtsAndCrossesArrayData: NaughtOrCrossValue[],

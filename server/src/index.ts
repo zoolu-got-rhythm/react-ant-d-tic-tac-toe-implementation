@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import path from "path";
 import { createServer } from "http";
 import { Server, Socket } from "socket.io";
 import {
@@ -15,6 +16,16 @@ const clientOrigin = process.env.CLIENT_ORIGIN ?? "http://localhost:3000";
 const app = express();
 app.use(cors({ origin: clientOrigin }));
 app.get("/health", (_req, res) => res.json({ ok: true }));
+
+if (process.env.NODE_ENV === "production") {
+    // dist output is nested as dist/server/src/index.js (see tsconfig rootDir),
+    // so __dirname here is server/dist/server/src -> up 4 to reach my-app/build
+    const buildPath = path.join(__dirname, "../../../../build");
+    app.use(express.static(buildPath));
+    app.get("*", (_req, res) => {
+        res.sendFile(path.join(buildPath, "index.html"));
+    });
+}
 
 const httpServer = createServer(app);
 const io = new Server<ClientToServerEvents, ServerToClientEvents>(httpServer, {
