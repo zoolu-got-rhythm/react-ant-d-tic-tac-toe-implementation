@@ -1,11 +1,10 @@
 import { Button, Timeline } from "antd";
-import { NaughtOrCrossValue } from "./Cell";
 import { TimelineItemType } from "antd/es/timeline/Timeline";
 import { ClockCircleOutlined } from "@ant-design/icons";
-
 import { Typography } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { countPlacedSymbols } from "../utils/countPlacedSymbols";
+import { NaughtOrCrossValue } from "../types/ticTacToe";
 
 const { Title } = Typography;
 

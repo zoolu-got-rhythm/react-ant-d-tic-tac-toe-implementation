@@ -1,5 +1,5 @@
 import { countPlacedSymbols } from "./countPlacedSymbols";
-import { NaughtOrCrossValue } from "../components/Cell";
+import { NaughtOrCrossValue } from "../types/ticTacToe";
 
 describe("countPlacedSymbols", () => {
     test("returns 0 for an empty board", () => {

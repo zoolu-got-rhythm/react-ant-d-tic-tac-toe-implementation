@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import "./App.css";
 import { Board } from "./Board";
-import { NaughtOrCrossValue } from "./Cell";
 import { ticTacToeHasWon } from "../utils/ticTacToeHasWon";
 import { TurnHistoryList } from "./TurnHistoryList";
 import { Typography } from "antd";
@@ -11,6 +10,7 @@ import RandomPlayingTicTacToe from "./RandomPlayingTicTacToe";
 import { Menu } from "./Menu";
 import { TicTacToeTitleText } from "./TicTacToeTitleText";
 import { BackButton } from "./BackButton";
+import { NaughtOrCrossValue } from "../types/ticTacToe";
 
 export type HandleClickTile = (indexOfTileToUpdate: number) => void;
 

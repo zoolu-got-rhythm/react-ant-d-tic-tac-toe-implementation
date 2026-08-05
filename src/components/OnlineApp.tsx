@@ -16,7 +16,12 @@ export type HandleClickTile = (indexOfTileToUpdate: number) => void;
 
 const { Title, Text } = Typography;
 
-const serverUrl = process.env.REACT_APP_SERVER_URL ?? "http://localhost:4000";
+// Falls back to same-origin (undefined) so the built production app,
+// served from the same Express server as the socket, works behind any
+// host/tunnel without hardcoding a URL. Local dev overrides this via
+// REACT_APP_SERVER_URL in .env.development, since CRA's dev server (:3000)
+// and the API server (:4000) are different origins there.
+const serverUrl = process.env.REACT_APP_SERVER_URL;
 
 type GamePhase = "enteringName" | "waiting" | "playing" | "over";
 

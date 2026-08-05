@@ -16,7 +16,7 @@ export function Menu() {
                     navigate("/practise");
                 }}
             >
-                practise
+                practice
             </Button>
             <Button
                 style={{ width: "200px", marginTop: "10px" }}

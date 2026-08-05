@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import "./App.css";
 import { Board } from "./Board";
-import { NaughtOrCrossValue } from "./Cell";
 import { ticTacToeHasWon } from "../utils/ticTacToeHasWon";
 import { TurnHistoryList } from "./TurnHistoryList";
 import { Typography } from "antd";
 import { isBoardFull } from "../utils/isBoardFull";
 import { countPlacedSymbols } from "../utils/countPlacedSymbols";
 import { useRequestAnimationFrameStep } from "../hooks/useRequestionAnimationFrameStep";
+import { NaughtOrCrossValue } from "../types/ticTacToe";
 
 export type HandleClickTile = (indexOfTileToUpdate: number) => void;
 
