@@ -85,11 +85,29 @@ flowchart TB
     WSClient <-->|WebSocket| Socket
 ```
 
-## running app
+## running app in dev environment
 
-`npm i` to install
+### running server
 
-`npm run start` to run
+cd into server and run: 
+
+`npm i` to install dependencies 
+
+then: `npm run dev` to start server 
+
+### running client
+
+`npm i` to install dependencies 
+
+`npm run start` to run react app
+
+## running app in production environment
+
+from root run `npm run build`
+
+from /server run `npm run build`
+
+from /server then run `NODE_ENV=production npm run start`
 
 ## running tests
 
