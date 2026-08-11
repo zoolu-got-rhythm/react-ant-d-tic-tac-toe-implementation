@@ -1,5 +1,6 @@
 import Title from "antd/es/typography/Title";
 import { BackButton } from "./BackButton";
+import blackMarkerPenImageWebp from "../assets/images/black-marker-pen.webp";
 
 interface TicTacToeTitleTextProps {
     subTitle: string;
@@ -22,6 +23,16 @@ export function TicTacToeTitleText({ subTitle }: TicTacToeTitleTextProps) {
                         // marginTop: "11px",
                         position: "absolute",
                         left: "-43px",
+                    }}
+                />
+                <img
+                    src={blackMarkerPenImageWebp}
+                    style={{
+                        height: "150px",
+                        width: "auto",
+                        position: "absolute",
+                        top: "-64px",
+                        left: "275px",
                     }}
                 />
                 <h1 className="dynapuff-bold"> Tic-Tac-Toe </h1>
