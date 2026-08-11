@@ -156,10 +156,10 @@ function OnlineApp() {
         <div className="App">
             <TicTacToeTitleText subTitle="online 🔌" />
             {opponentName && (
-                <h4
+                <Text
                     id="reactFundamentals"
-                    style={{ marginTop: "15px" }}
-                >{`${myName} vs ${opponentName}`}</h4>
+                    style={{ margin: "15px" }}
+                >{`${myName} vs ${opponentName}`}</Text>
             )}
 
             {gamePhase === "enteringName" || gamePhase === "waiting" ? (
