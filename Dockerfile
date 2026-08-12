@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-# ---- client build (CRA) ----
+# ---- client build (Create React App) ----
 FROM node:22-alpine AS client-build
 WORKDIR /app
 COPY package.json package-lock.json ./
