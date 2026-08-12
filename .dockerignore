@@ -1,0 +1,12 @@
+node_modules
+server/node_modules
+build
+server/dist
+coverage
+test-results
+e2e
+.git
+.DS_Store
+*.gif
+.env.local
+.env.*.local
