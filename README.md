@@ -103,6 +103,24 @@ then: `npm run dev` to start server
 
 ## running app in production environment
 
+you can run production with docker:
+
+`docker build -t tic-tac-toe .` to build the image
+
+`docker run -p 4000:4000 tic-tac-toe` to run the container, then open `http://localhost:4000`
+
+if deploying behind a different host/port, override the client origin baked into the image:
+
+`docker run -p 4000:4000 -e CLIENT_ORIGIN=http://your-domain:4000 tic-tac-toe`
+
+to run detached with a name (for stopping/restarting later):
+
+`docker run -d -p 4000:4000 --name tic-tac-toe tic-tac-toe`
+
+`docker stop tic-tac-toe && docker rm tic-tac-toe` to stop and remove it
+
+or, without docker:
+
 from root run `npm run build`
 
 from /server run `npm run build`
