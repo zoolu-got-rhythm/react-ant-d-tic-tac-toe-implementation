@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test("draw game", async ({ page }) => {
-    await page.goto("http://localhost:3000/");
+    await page.goto("http://localhost:3000/practice");
 
     await page.getByLabel("cell 3 = empty").click({
         position: {

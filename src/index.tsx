@@ -15,7 +15,7 @@ root.render(
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<Menu />} />
-            <Route path="/practise" element={<PractiseTimeTravel />} />
+            <Route path="/practice" element={<PractiseTimeTravel />} />
             <Route path="/online-play" element={<OnlineApp />} />
         </Routes>
     </BrowserRouter>,

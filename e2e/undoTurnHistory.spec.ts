@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test("turn indicator updates", async ({ page }) => {
-    await page.goto("http://localhost:3000/");
+    await page.goto("http://localhost:3000/practice");
     await page.getByLabel("cell 1 = empty").click({
         position: {
             x: 22,
