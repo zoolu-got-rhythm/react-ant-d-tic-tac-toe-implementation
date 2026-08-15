@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Button, Input, Typography } from "antd";
+import { useEffect, useRef, useState } from "react";
+import { Button, Input, InputRef, Typography } from "antd";
 
 const { Title, Text } = Typography;
 
@@ -26,6 +26,11 @@ export function PlayerNameEntry({
 
     const maxNameLength = 10;
 
+    const playerNameInputRef = useRef<InputRef>(null);
+    useEffect(() => {
+        playerNameInputRef.current?.focus();
+    }, []);
+
     return (
         <div id="playerNameEntryContainer">
             <Title level={4}>enter your name to find an opponent</Title>
@@ -39,6 +44,7 @@ export function PlayerNameEntry({
                     }}
                 >
                     <Input
+                        ref={playerNameInputRef}
                         id="playerNameInput"
                         placeholder="your name"
                         value={playerName}

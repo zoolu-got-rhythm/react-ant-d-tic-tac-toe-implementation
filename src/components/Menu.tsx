@@ -13,7 +13,7 @@ export function Menu() {
             <Button
                 style={{ width: "200px", marginTop: "25px" }}
                 onClick={() => {
-                    navigate("/practise");
+                    navigate("/practice");
                 }}
             >
                 practice

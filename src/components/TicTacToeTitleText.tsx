@@ -25,17 +25,23 @@ export function TicTacToeTitleText({ subTitle }: TicTacToeTitleTextProps) {
                         left: "-43px",
                     }}
                 />
-                <img
-                    src={blackMarkerPenImageWebp}
-                    style={{
-                        height: "150px",
-                        width: "auto",
-                        position: "absolute",
-                        top: "-64px",
-                        left: "275px",
-                    }}
-                />
-                <h1 className="dynapuff-bold"> Tic-Tac-Toe </h1>
+
+                <h1 className="dynapuff-bold" style={{ position: "relative" }}>
+                    {" "}
+                    Tic-Tac-Toe{" "}
+                    <img
+                        src={blackMarkerPenImageWebp}
+                        style={{
+                            // em units so this scales with the h1's clamp()-driven
+                            // font-size instead of drifting at narrower viewports
+                            height: "3.125em",
+                            width: "auto",
+                            position: "absolute",
+                            top: "-1.70em",
+                            left: "5.73em",
+                        }}
+                    />
+                </h1>
             </div>
 
             <Title
